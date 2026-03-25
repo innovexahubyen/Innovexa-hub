@@ -16,7 +16,7 @@ export async function getMember(id) {
     .from('profiles')
     .select('*')
     .eq('id', id)
-    .single()
+    .maybeSingle()
   if (error) throw error
   return data
 }

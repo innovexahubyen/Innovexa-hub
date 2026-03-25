@@ -80,6 +80,7 @@ async function handleRoute() {
       case 'dashboard':
       case 'member-events':
       case 'member-posts':
+      case 'member-chat':
       case 'member-announcements':
       case 'member-contact': {
         if (!currentUser) { navigateTo('login'); return }
