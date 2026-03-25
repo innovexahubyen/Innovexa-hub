@@ -24,7 +24,7 @@ export async function renderDashboard(app, activeTab = 'dashboard') {
     <div class="dashboard-layout">
       <aside class="sidebar">
         <a class="sidebar-brand" onclick="location.hash='dashboard'">
-          <img src="/assets/logo.png" alt="Innovexa Hub">
+          <img src="./assets/logo.png" alt="Innovexa Hub">
           <span>Innovexa Hub</span>
         </a>
         <ul class="sidebar-nav">
@@ -277,7 +277,8 @@ async function renderMemberChat(main, currentUser, profile) {
       messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
   } catch (err) {
-    messagesContainer.innerHTML = `<div class="empty-state" style="color:red">Failed to load messages</div>`
+    console.error("Chat Error: Failed to load messages:", err)
+    messagesContainer.innerHTML = `<div class="empty-state" style="color:red">Failed to load messages. Check console.</div>`
   }
 
   // Subscribe to new messages
@@ -294,7 +295,14 @@ async function renderMemberChat(main, currentUser, profile) {
         const empty = messagesContainer.querySelector('.empty-state')
         if (empty) empty.remove()
       })
-      .subscribe()
+      .subscribe((status, err) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('Subscribed to real-time chat!')
+        }
+        if (err) {
+          console.error('Real-time subscription error:', err)
+        }
+      })
   }
 
   // Sending a message
@@ -309,6 +317,7 @@ async function renderMemberChat(main, currentUser, profile) {
       await createMessage(text, currentUser.id)
       chatInput.value = ''
     } catch (err) {
+      console.error("Chat Error: Failed to send msg:", err)
       showToast('Failed to send message', 'error')
     } finally {
       chatInput.disabled = false

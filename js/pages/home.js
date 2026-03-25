@@ -12,7 +12,7 @@ export async function renderHome(app) {
 
     <section class="hero">
       <div class="hero-content">
-        <div class="hero-logo"><img src="/assets/logo.png" alt="Innovexa Hub"></div>
+        <div class="hero-logo"><img src="./assets/logo.png" alt="Innovexa Hub"></div>
         <h1>Welcome to Innovexa Hub</h1>
         <p>A vibrant tech community where innovation meets collaboration. Explore events, share knowledge, and grow together.</p>
         <div class="hero-actions">

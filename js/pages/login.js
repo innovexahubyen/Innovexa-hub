@@ -6,7 +6,7 @@ export function renderLogin(app) {
     <div class="auth-page">
       <div class="auth-card">
         <div class="logo-area">
-          <img src="/assets/logo.png" alt="Innovexa Hub">
+          <img src="./assets/logo.png" alt="Innovexa Hub">
           <h2>Innovexa Hub</h2>
           <p>Sign in to your member account</p>
         </div>

@@ -17,8 +17,8 @@ export async function renderAdmin(app, activeTab) {
   app.innerHTML = `
     <div class="dashboard-layout">
       <aside class="sidebar">
-        <a class="sidebar-brand" onclick="location.hash='home'">
-          <img src="/assets/logo.png" alt="Innovexa Hub">
+        <a class="sidebar-brand" onclick="location.hash='admin'">
+          <img src="./assets/logo.png" alt="Innovexa Hub">
           <span>Innovexa Hub</span>
         </a>
         <ul class="sidebar-nav">

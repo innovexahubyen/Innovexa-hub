@@ -146,7 +146,7 @@ export function getFooter() {
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
-          <img src="/assets/logo.png" alt="Innovexa Hub">
+          <img src="./assets/logo.png" alt="Innovexa Hub">
           <p>Innovexa Hub is a tech community dedicated to innovation, learning, and collaboration. Join us to explore the future of technology.</p>
         </div>
         <div>
