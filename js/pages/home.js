@@ -13,11 +13,11 @@ export async function renderHome(app) {
     <section class="hero">
       <div class="hero-content">
         <div class="hero-logo"><img src="./assets/logo.png" alt="Innovexa Hub"></div>
-        <h1>Welcome to Innovexa Hub</h1>
-        <p>A vibrant tech community where innovation meets collaboration. Explore events, share knowledge, and grow together.</p>
+        <h1>System Online: Innovexa Hub</h1>
+        <p>A decentralized network for innovation, collective intelligence, and recursive learning.</p>
         <div class="hero-actions">
-          <a href="#events" class="btn btn-primary btn-lg">Explore Events</a>
-          <a href="#login" class="btn btn-outline btn-lg">Join Us</a>
+          <a href="#events" class="btn btn-primary btn-lg">Target Objectives</a>
+          <a href="#login" class="btn btn-outline btn-lg">Initialize User</a>
         </div>
       </div>
     </section>
@@ -25,8 +25,8 @@ export async function renderHome(app) {
     <section class="section section-alt">
       <div class="container">
         <div class="section-header">
-          <h2>Latest Announcements</h2>
-          <p>Stay updated with the latest news from Innovexa Hub</p>
+          <h2>System Broadcasts</h2>
+          <p>Recent packet transmissions from the core network</p>
           <div class="accent-line"></div>
         </div>
         <div class="grid" id="announcements-grid">
@@ -50,8 +50,8 @@ export async function renderHome(app) {
     <section class="section">
       <div class="container">
         <div class="section-header">
-          <h2>Upcoming Events</h2>
-          <p>Don't miss out on our exciting upcoming events</p>
+          <h2>Target Objectives</h2>
+          <p>Upcoming milestones in the hub's roadmap</p>
           <div class="accent-line"></div>
         </div>
         <div class="grid" id="events-grid">
@@ -70,7 +70,7 @@ export async function renderHome(app) {
             `).join('')}
         </div>
         <div class="text-center mt-3">
-          <a href="#events" class="btn btn-secondary">View All Events →</a>
+          <a href="#events" class="btn btn-secondary">All Objectives →</a>
         </div>
       </div>
     </section>

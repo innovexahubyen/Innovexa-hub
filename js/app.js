@@ -122,7 +122,7 @@ export function getNavbar(activePage) {
       </a>
       <ul class="nav-links">
         ${isLoggedIn ? `
-          <li><a href="#dashboard" class="${activePage === 'dashboard' ? 'active' : ''}">My Profile</a></li>
+          <li><a href="#dashboard" class="${activePage === 'dashboard' ? 'active' : ''}">Identity</a></li>
           ${isAdmin ? `<li><a href="#admin" class="${activePage.startsWith('admin') ? 'active' : ''}">Admin Panel</a></li>` : ''}
           <li><a href="#" id="logout-btn">Logout</a></li>
         ` : ''}
@@ -160,10 +160,10 @@ export function getFooter() {
           </ul>
         </div>
         <div>
-          <h4>Connect</h4>
+          <h4>Core Directive</h4>
           <ul class="footer-links">
-            <li><a href="#login">Member Login</a></li>
-            <li><a href="mailto:innovexahub.bangalore@gmail.com">Contact Us</a></li>
+            <li><a href="#login">Auth Portal</a></li>
+            <li><a href="mailto:innovexahub.bangalore@gmail.com">Troubleshooting</a></li>
           </ul>
         </div>
       </div>

@@ -15,8 +15,8 @@ export function renderLogin(app) {
         <div class="form-wrapper">
           <div class="logo-area">
             <img src="./assets/logo.png" alt="Innovexa Hub">
-            <h2>Welcome Back</h2>
-            <p>Sign in to your member account to continue</p>
+            <h2>Identity Verification</h2>
+            <p>Authorize system access to continue</p>
           </div>
 
           <form id="login-form">
@@ -28,7 +28,7 @@ export function renderLogin(app) {
               <label>Password</label>
               <input type="password" id="login-password" placeholder="••••••••" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top: 8px;">Sign In to Portal</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top: 8px;">System Access</button>
           </form>
         </div>
       </div>
@@ -38,17 +38,17 @@ export function renderLogin(app) {
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault()
     const btn = e.target.querySelector('button[type="submit"]')
-    btn.textContent = 'Signing in...'
+    btn.textContent = 'Initializing...'
     btn.disabled = true
     try {
       await signIn(
         document.getElementById('login-email').value,
         document.getElementById('login-password').value
       )
-      showToast('Welcome back!', 'success')
+      showToast('Access Granted', 'success')
     } catch (err) {
       showToast(err.message, 'error')
-      btn.textContent = 'Sign In'
+      btn.textContent = 'System Access'
       btn.disabled = false
     }
   })

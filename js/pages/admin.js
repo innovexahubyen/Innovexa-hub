@@ -3,11 +3,11 @@ import { signOut } from '../auth.js'
 import * as db from '../db.js'
 
 const TABS = [
-  { id: 'admin', label: 'Dashboard', icon: '📊' },
-  { id: 'admin-members', label: 'Members', icon: '👥' },
-  { id: 'admin-events', label: 'Events', icon: '🗓️' },
-  { id: 'admin-posts', label: 'Posts', icon: '📝' },
-  { id: 'admin-announcements', label: 'Announcements', icon: '📢' },
+  { id: 'admin', label: 'Core Directive', icon: '📊' },
+  { id: 'admin-members', label: 'Active Nodes', icon: '👥' },
+  { id: 'admin-events', label: 'Target Objectives', icon: '🗓️' },
+  { id: 'admin-posts', label: 'The Sandbox', icon: '📝' },
+  { id: 'admin-announcements', label: 'System Broadcasts', icon: '📢' },
 ]
 
 export async function renderAdmin(app, activeTab) {
@@ -67,7 +67,7 @@ async function renderAdminDashboard(main) {
   try { announcements = await db.getAnnouncements() } catch(e) {}
 
   main.innerHTML = `
-    <div class="page-header"><h1>Admin Dashboard</h1></div>
+    <div class="page-header"><h1>Core Directive</h1></div>
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-icon members">👥</div>
@@ -119,7 +119,7 @@ async function renderAdminMembers(main) {
 
   main.innerHTML = `
     <div class="page-header">
-      <h1>Manage Members</h1>
+      <h1>Active Nodes</h1>
       <button class="btn btn-primary" id="add-member-btn">+ Add Member</button>
     </div>
     <div class="table-container">
@@ -219,7 +219,7 @@ async function renderAdminEvents(main) {
 
   main.innerHTML = `
     <div class="page-header">
-      <h1>Manage Events</h1>
+      <h1>Target Objectives</h1>
       <button class="btn btn-primary" id="add-event-btn">+ Add Event</button>
     </div>
     <div class="table-container">
@@ -289,7 +289,7 @@ async function renderAdminPosts(main) {
 
   main.innerHTML = `
     <div class="page-header">
-      <h1>Manage Posts</h1>
+      <h1>The Sandbox</h1>
       <button class="btn btn-primary" id="add-post-btn">+ New Post</button>
     </div>
     <div class="table-container">
@@ -355,7 +355,7 @@ async function renderAdminAnnouncements(main) {
 
   main.innerHTML = `
     <div class="page-header">
-      <h1>Manage Announcements</h1>
+      <h1>System Broadcasts</h1>
       <button class="btn btn-primary" id="add-ann-btn">+ New Announcement</button>
     </div>
     <div class="table-container">

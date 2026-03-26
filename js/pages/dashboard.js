@@ -4,12 +4,12 @@ import { getEvents, getAnnouncements, getPosts, getMessages, createMessage, ensu
 import { supabase } from '../lib/supabase.js'
 
 const MEMBER_TABS = [
-  { id: 'dashboard', label: 'Profile', icon: '👤' },
-  { id: 'member-events', label: 'Events', icon: '🗓️' },
-  { id: 'member-posts', label: 'Posts', icon: '📝' },
-  { id: 'member-announcements', label: 'Announcements', icon: '📢' },
-  { id: 'member-chat', label: 'Chat', icon: '💬' },
-  { id: 'member-contact', label: 'Contact', icon: '📞' },
+  { id: 'dashboard', label: 'Identity Verification', icon: '👤' },
+  { id: 'member-events', label: 'Target Objectives', icon: '🗓️' },
+  { id: 'member-posts', label: 'The Sandbox', icon: '📝' },
+  { id: 'member-announcements', label: 'System Broadcasts', icon: '📢' },
+  { id: 'member-chat', label: 'Active Nodes', icon: '💬' },
+  { id: 'member-contact', label: 'Troubleshooting', icon: '📞' },
 ]
 
 let chatSubscription = null
@@ -96,7 +96,7 @@ export async function renderDashboard(app, activeTab = 'dashboard') {
 function renderProfile(main, profile, currentUser) {
   const initials = (profile.name || '?').charAt(0).toUpperCase()
   main.innerHTML = `
-    <div class="page-header"><h1>My Profile</h1></div>
+    <div class="page-header"><h1>Identity Verification</h1></div>
     <div class="profile-card">
       <div class="profile-banner"></div>
       <div style="position:relative">
@@ -133,7 +133,7 @@ async function renderMemberEvents(main) {
   let events = []
   try { events = await getEvents() } catch(e) {}
   main.innerHTML = `
-    <div class="page-header"><h1>Events</h1></div>
+    <div class="page-header"><h1>Target Objectives</h1></div>
     <div class="grid">
       ${events.length === 0 ? '<div class="empty-state"><h3>No events yet</h3><p>Check back soon for upcoming events!</p></div>' :
         events.map(ev => `
@@ -157,7 +157,7 @@ async function renderMemberPosts(main) {
   let posts = []
   try { posts = await getPosts() } catch(e) {}
   main.innerHTML = `
-    <div class="page-header"><h1>Posts</h1></div>
+    <div class="page-header"><h1>The Sandbox</h1></div>
     <div class="grid">
       ${posts.length === 0 ? '<div class="empty-state"><h3>No posts yet</h3><p>Community posts will appear here.</p></div>' :
         posts.map(p => `
@@ -181,7 +181,7 @@ async function renderMemberAnnouncements(main) {
   let announcements = []
   try { announcements = await getAnnouncements() } catch(e) {}
   main.innerHTML = `
-    <div class="page-header"><h1>Announcements</h1></div>
+    <div class="page-header"><h1>System Broadcasts</h1></div>
     <div class="grid">
       ${announcements.length === 0 ? '<div class="empty-state"><h3>No announcements yet</h3><p>Stay tuned for updates!</p></div>' :
         announcements.map(a => `
@@ -203,7 +203,7 @@ async function renderMemberAnnouncements(main) {
 // ════════════ CONTACT ════════════
 function renderContact(main) {
   main.innerHTML = `
-    <div class="page-header"><h1>Contact</h1></div>
+    <div class="page-header"><h1>Troubleshooting</h1></div>
     <div class="contact-card">
       <div class="contact-header">Get in Touch</div>
       <div class="contact-body">
@@ -227,7 +227,7 @@ function renderContact(main) {
 // ════════════ CHAT ════════════
 async function renderMemberChat(main, currentUser, profile) {
   main.innerHTML = `
-    <div class="page-header"><h1>Community Chat</h1></div>
+    <div class="page-header"><h1>Active Nodes</h1></div>
     <div class="chat-container">
       <div class="chat-messages" id="chat-messages">
         <div class="spinner"></div>
