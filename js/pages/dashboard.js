@@ -217,7 +217,7 @@ function renderContact(main) {
         </div>
         <div class="contact-row">
           <span class="contact-label">📍 Address:</span>
-          <span class="contact-value">Innovexa Hub, Tech Park</span>
+          <span class="contact-value">None</span>
         </div>
       </div>
     </div>
