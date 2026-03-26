@@ -201,5 +201,5 @@ export async function createMessage(content, senderId) {
     .insert({ content, sender_id: senderId })
     .select()
   if (error) throw error
-  return data[0]
+  return data
 }

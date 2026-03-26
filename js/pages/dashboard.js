@@ -318,8 +318,8 @@ async function renderMemberChat(main, currentUser, profile) {
       await createMessage(text, currentUser.id)
       chatInput.value = ''
     } catch (err) {
-      console.error("Chat Error: Failed to send msg:", err)
-      showToast('Failed to send message', 'error')
+      console.error("Chat Error:", err)
+      showToast(`Failed: ${err.message || 'Unknown error'}`, 'error')
     } finally {
       chatInput.disabled = false
       sendBtn.disabled = false
