@@ -162,7 +162,7 @@ export function getFooter() {
           <h4>Connect</h4>
           <ul class="footer-links">
             <li><a href="#login">Member Login</a></li>
-            <li><a href="mailto:contact@innovexahub.com">Contact Us</a></li>
+            <li><a href="mailto:innovexahub.bangalore@gmail.com">Contact Us</a></li>
           </ul>
         </div>
       </div>

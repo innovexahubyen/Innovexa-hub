@@ -209,11 +209,11 @@ function renderContact(main) {
       <div class="contact-body">
         <div class="contact-row">
           <span class="contact-label">📧 Email ID:</span>
-          <span class="contact-value">contact@innovexahub.com</span>
+          <span class="contact-value">innovexahub.bangalore@gmail.com</span>
         </div>
         <div class="contact-row">
           <span class="contact-label">📞 Contact Number:</span>
-          <span class="contact-value">+91 98765 43210</span>
+          <span class="contact-value">None</span>
         </div>
         <div class="contact-row">
           <span class="contact-label">📍 Address:</span>
