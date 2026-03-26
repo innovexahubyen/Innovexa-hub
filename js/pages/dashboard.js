@@ -22,6 +22,7 @@ export async function renderDashboard(app, activeTab = 'dashboard') {
 
   app.innerHTML = `
     <div class="dashboard-layout">
+      <div class="global-bg-mesh"></div>
       <aside class="sidebar">
         <a class="sidebar-brand" onclick="location.hash='dashboard'">
           <img src="./assets/logo.png" alt="Innovexa Hub">
