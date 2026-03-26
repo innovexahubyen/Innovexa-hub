@@ -3,12 +3,14 @@ import { showToast } from '../app.js'
 
 export function renderLogin(app) {
   app.innerHTML = `
-    <div class="auth-page">
+    <div class="auth-page" style="position: relative; overflow: hidden;">
+      <div class="auth-bg-shape shape-1"></div>
+      <div class="auth-bg-shape shape-2"></div>
       <div class="auth-card">
         <div class="logo-area">
           <img src="./assets/logo.png" alt="Innovexa Hub">
-          <h2>Innovexa Hub</h2>
-          <p>Sign in to your member account</p>
+          <h2>Welcome Back</h2>
+          <p>Sign in to continue to Innovexa Hub</p>
         </div>
 
         <form id="login-form">
