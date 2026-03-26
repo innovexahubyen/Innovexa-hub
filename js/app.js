@@ -1,5 +1,6 @@
 import { getSession, onAuthStateChange, signOut, getUserProfile } from './auth.js'
 import { supabase } from './lib/supabase.js'
+import { ensureProfile } from './db.js'
 
 // ── State ──
 let currentUser = null
@@ -13,14 +14,14 @@ export async function initApp() {
   if (session) {
     currentUser = session.user
     try {
-      currentProfile = await getUserProfile(session.user.id)
+      currentProfile = await ensureProfile(session.user)
     } catch (e) { console.warn('No profile yet') }
   }
 
   onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session) {
       currentUser = session.user
-      try { currentProfile = await getUserProfile(session.user.id) } catch(e) {}
+      try { currentProfile = await ensureProfile(session.user) } catch(e) {}
       setupRealtimeNotifications()
       navigateTo(currentProfile?.role === 'admin' ? 'admin' : 'dashboard')
     } else if (event === 'SIGNED_OUT') {

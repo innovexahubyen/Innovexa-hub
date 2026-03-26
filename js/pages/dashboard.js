@@ -1,6 +1,6 @@
 import { getState, showToast, navigateTo, formatDate } from '../app.js'
 import { signOut } from '../auth.js'
-import { getEvents, getAnnouncements, getPosts, getMessages, createMessage } from '../db.js'
+import { getEvents, getAnnouncements, getPosts, getMessages, createMessage, ensureProfile } from '../db.js'
 import { supabase } from '../lib/supabase.js'
 
 const MEMBER_TABS = [

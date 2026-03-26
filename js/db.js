@@ -203,3 +203,30 @@ export async function createMessage(content, senderId) {
   if (error) throw error
   return data
 }
+
+export async function ensureProfile(user) {
+  if (!user) return null
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle()
+  
+  if (!data) {
+    console.log('Profile missing, creating default...')
+    const { data: newProfile, error: createError } = await supabase
+      .from('profiles')
+      .upsert({
+        id: user.id,
+        name: user.user_metadata?.name || 'Member',
+        email: user.email,
+        role: 'member',
+        date_of_joining: new Date().toISOString().split('T')[0]
+      })
+      .select()
+      .single()
+    if (createError) console.error('Failed to create default profile:', createError)
+    return newProfile
+  }
+  return data
+}
