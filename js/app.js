@@ -1,227 +1,118 @@
 import { getSession, onAuthStateChange, signOut, getUserProfile } from './auth.js'
 import { supabase } from './lib/supabase.js'
-import { ensureProfile } from './db.js'
 
-// ── State ──
-let currentUser = null
-let currentProfile = null
-let currentPage = 'login'
-let announcementSubscription = null
+let user = null
+let profile = null
+let page = 'login'
+let announceSub = null
 
-// ── Initialize ──
 export async function initApp() {
   const session = await getSession()
   if (session) {
-    currentUser = session.user
-    try {
-      currentProfile = await ensureProfile(session.user)
-    } catch (e) { console.warn('No profile yet') }
+    user = session.user
+    try { profile = await getUserProfile(user.id) } catch (e) { console.warn('No profile') }
+    setupAnnouncementListener()
   }
 
-  onAuthStateChange(async (event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-      currentUser = session.user
-      try { currentProfile = await ensureProfile(session.user) } catch(e) {}
-      setupRealtimeNotifications()
-      navigateTo(currentProfile?.role === 'admin' ? 'admin' : 'dashboard')
-    } else if (event === 'SIGNED_OUT') {
-      currentUser = null
-      currentProfile = null
-      if (announcementSubscription) {
-        await supabase.removeChannel(announcementSubscription)
-        announcementSubscription = null
-      }
+  onAuthStateChange(async (ev, session) => {
+    if (ev === 'SIGNED_IN' && session) {
+      user = session.user
+      try { profile = await getUserProfile(user.id) } catch (e) {}
+      setupAnnouncementListener()
+      navigateTo(profile?.role === 'admin' ? 'admin' : 'portal')
+    } else if (ev === 'SIGNED_OUT') {
+      user = null; profile = null
+      if (announceSub) { supabase.removeChannel(announceSub); announceSub = null }
       navigateTo('login')
     }
   })
 
-  // Hash router
-  window.addEventListener('hashchange', handleRoute)
-  handleRoute()
+  window.addEventListener('hashchange', route)
+  route()
 }
 
-function setupRealtimeNotifications() {
-  if (announcementSubscription) return
-  announcementSubscription = supabase
-    .channel('public:announcements')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'announcements' }, payload => {
-      showToast(`📢 New Announcement: ${payload.new.title}`, 'info')
+function setupAnnouncementListener() {
+  if (announceSub) return
+  announceSub = supabase
+    .channel('rt-announcements')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'announcements' }, p => {
+      toast(`📢 New: ${p.new.title}`, 'info')
     })
     .subscribe()
 }
 
-export function getState() {
-  return { currentUser, currentProfile, currentPage }
-}
+export function getState() { return { user, profile, page } }
+export function navigateTo(p) { window.location.hash = p }
 
-export function navigateTo(page) {
-  window.location.hash = page
-}
-
-async function handleRoute() {
+async function route() {
   const hash = window.location.hash.slice(1) || 'login'
-  currentPage = hash
-
+  page = hash
   const app = document.getElementById('app')
-  app.innerHTML = '<div class="page-loading"><div class="spinner"></div><p>Loading...</p></div>'
+  app.innerHTML = '<div class="loading"><div class="spinner"></div></div>'
 
-  // If logged in and on login page, redirect to dashboard/admin
-  if (currentUser && hash === 'login') {
-    navigateTo(currentProfile?.role === 'admin' ? 'admin' : 'dashboard')
-    return
-  }
+  if (user && hash === 'login') { navigateTo(profile?.role === 'admin' ? 'admin' : 'portal'); return }
 
   try {
     switch (hash) {
       case 'login': {
         const { renderLogin } = await import('./pages/login.js')
-        renderLogin(app)
-        break
+        renderLogin(app); break
       }
-      case 'dashboard':
-      case 'member-events':
-      case 'member-posts':
-      case 'member-chat':
-      case 'member-announcements':
-      case 'member-contact': {
-        if (!currentUser) { navigateTo('login'); return }
-        const { renderDashboard } = await import('./pages/dashboard.js')
-        renderDashboard(app, hash)
-        break
+      case 'portal': case 'portal-events': case 'portal-posts':
+      case 'portal-announcements': case 'portal-chat': case 'portal-contact': {
+        if (!user) { navigateTo('login'); return }
+        const { renderPortal } = await import('./pages/portal.js')
+        renderPortal(app, hash); break
       }
-      case 'admin':
-      case 'admin-members':
-      case 'admin-events':
-      case 'admin-posts':
-      case 'admin-announcements': {
-        if (!currentUser) { navigateTo('login'); return }
+      case 'admin': case 'admin-members': case 'admin-events':
+      case 'admin-posts': case 'admin-announcements': {
+        if (!user) { navigateTo('login'); return }
         const { renderAdmin } = await import('./pages/admin.js')
-        renderAdmin(app, hash)
-        break
+        renderAdmin(app, hash); break
       }
-      default:
-        navigateTo('login')
+      default: navigateTo('login')
     }
   } catch (err) {
-    console.error('Route error:', err)
-    app.innerHTML = `<div class="empty-state"><h3>Something went wrong</h3><p>${err.message}</p></div>`
+    console.error(err)
+    app.innerHTML = `<div class="empty"><h3>Something went wrong</h3><p>${err.message}</p></div>`
   }
 }
 
-// ── Nav bar HTML ──
-export function getNavbar(activePage) {
-  const isLoggedIn = !!currentUser
-  const isAdmin = currentProfile?.role === 'admin'
-
-  return `
-  <nav class="navbar">
-    <div class="container" style="display:flex;justify-content:space-between;align-items:center;height:64px;">
-      <a class="nav-brand" onclick="location.hash='${isAdmin ? 'admin' : 'dashboard'}'">
-        <img src="/assets/logo.png" alt="Innovexa Hub">
-        <span>Innovexa Hub</span>
-      </a>
-      <ul class="nav-links">
-        ${isLoggedIn ? `
-          <li><a href="#dashboard" class="${activePage === 'dashboard' ? 'active' : ''}">Identity</a></li>
-          ${isAdmin ? `<li><a href="#admin" class="${activePage.startsWith('admin') ? 'active' : ''}">Admin Panel</a></li>` : ''}
-          <li><a href="#" id="logout-btn">Logout</a></li>
-        ` : ''}
-      </ul>
-    </div>
-  </nav>`
+// ── Shared UI ──
+export function toast(msg, type = 'info') {
+  let c = document.querySelector('.toast-container')
+  if (!c) { c = document.createElement('div'); c.className = 'toast-container'; document.body.appendChild(c) }
+  const t = document.createElement('div')
+  t.className = `toast ${type}`
+  t.textContent = msg
+  c.appendChild(t)
+  setTimeout(() => t.remove(), 4000)
 }
 
-export function attachNavEvents() {
-  const logoutBtn = document.getElementById('logout-btn')
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (e) => {
-      e.preventDefault()
-      await signOut()
-    })
-  }
+export function modal(title, body, footer = '') {
+  const o = document.createElement('div')
+  o.className = 'modal-overlay'
+  o.innerHTML = `<div class="modal">
+    <div class="modal-header"><h3>${title}</h3><button class="btn btn-ghost btn-icon close-m">&times;</button></div>
+    <div class="modal-body">${body}</div>
+    ${footer ? `<div class="modal-footer">${footer}</div>` : ''}
+  </div>`
+  document.body.appendChild(o)
+  o.querySelector('.close-m').onclick = () => o.remove()
+  o.addEventListener('click', e => { if (e.target === o) o.remove() })
+  return o
 }
 
-// ── Footer HTML ──
-export function getFooter() {
-  return `
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <img src="./assets/logo.png" alt="Innovexa Hub">
-          <p>Innovexa Hub is a tech community dedicated to innovation, learning, and collaboration. Join us to explore the future of technology.</p>
-        </div>
-        <div>
-          <h4>Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#posts">Posts</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Core Directive</h4>
-          <ul class="footer-links">
-            <li><a href="#login">Auth Portal</a></li>
-            <li><a href="mailto:innovexahub.bangalore@gmail.com">Troubleshooting</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        &copy; ${new Date().getFullYear()} Innovexa Hub. All rights reserved.
-      </div>
-    </div>
-  </footer>`
+export function closeModal() { document.querySelector('.modal-overlay')?.remove() }
+
+export function fmtDate(d) {
+  if (!d) return '—'
+  return new Date(d).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
 }
 
-// ── Toast ──
-export function showToast(message, type = 'info') {
-  let container = document.querySelector('.toast-container')
-  if (!container) {
-    container = document.createElement('div')
-    container.className = 'toast-container'
-    document.body.appendChild(container)
-  }
-  const toast = document.createElement('div')
-  toast.className = `toast ${type}`
-  toast.innerHTML = `<span class="toast-message">${message}</span>`
-  container.appendChild(toast)
-  setTimeout(() => { toast.remove() }, 3500)
+export function fmtTime(d) {
+  if (!d) return ''
+  return new Date(d).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
-// ── Modal ──
-export function showModal(title, bodyHTML, footerHTML = '') {
-  const overlay = document.createElement('div')
-  overlay.className = 'modal-overlay'
-  overlay.innerHTML = `
-    <div class="modal">
-      <div class="modal-header">
-        <h3>${title}</h3>
-        <button class="btn btn-ghost btn-icon close-modal">&times;</button>
-      </div>
-      <div class="modal-body">${bodyHTML}</div>
-      ${footerHTML ? `<div class="modal-footer">${footerHTML}</div>` : ''}
-    </div>`
-  document.body.appendChild(overlay)
-  overlay.querySelector('.close-modal').addEventListener('click', () => overlay.remove())
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove() })
-  return overlay
-}
-
-export function closeModal() {
-  document.querySelector('.modal-overlay')?.remove()
-}
-
-// ── Date formatting ──
-export function formatDate(dateStr) {
-  if (!dateStr) return '—'
-  return new Date(dateStr).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
-}
-
-export function formatDateTime(dateStr) {
-  if (!dateStr) return '—'
-  return new Date(dateStr).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-}
-
-// Start
 document.addEventListener('DOMContentLoaded', initApp)

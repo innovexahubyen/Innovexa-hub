@@ -1,54 +1,41 @@
 import { signIn } from '../auth.js'
-import { showToast } from '../app.js'
+import { toast } from '../app.js'
 
 export function renderLogin(app) {
   app.innerHTML = `
-    <div class="split-layout">
-      <div class="split-visual">
-        <div class="visual-bg-mesh"></div>
-        <div class="visual-content">
-          <h1 class="visual-title">Innovexa Hub</h1>
-          <p class="visual-subtitle">Enter a vibrant tech community dedicated to futuristic innovation, dynamic learning, and seamless collaboration.</p>
+    <div class="auth-page">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <img src="/assets/logo.png" alt="Innovexa Hub">
+          <h1>Innovexa Hub</h1>
+          <p>Sign in to your member portal</p>
         </div>
-      </div>
-      <div class="split-form">
-        <div class="form-wrapper">
-          <div class="logo-area">
-            <img src="./assets/logo.png" alt="Innovexa Hub">
-            <h2>Identity Verification</h2>
-            <p>Authorize system access to continue</p>
+        <form id="login-form">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="your@email.com" required>
           </div>
-
-          <form id="login-form">
-            <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" id="login-email" placeholder="hello@innovexa.com" required>
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" id="login-password" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width:100%; margin-top: 8px;">System Access</button>
-          </form>
-        </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%" id="login-btn">Sign In</button>
+        </form>
       </div>
     </div>
   `
 
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault()
-    const btn = e.target.querySelector('button[type="submit"]')
-    btn.textContent = 'Initializing...'
+    const btn = document.getElementById('login-btn')
+    btn.textContent = 'Signing in...'
     btn.disabled = true
     try {
-      await signIn(
-        document.getElementById('login-email').value,
-        document.getElementById('login-password').value
-      )
-      showToast('Access Granted', 'success')
+      await signIn(document.getElementById('email').value, document.getElementById('password').value)
+      toast('Welcome back!', 'success')
     } catch (err) {
-      showToast(err.message, 'error')
-      btn.textContent = 'System Access'
+      toast(err.message, 'error')
+      btn.textContent = 'Sign In'
       btn.disabled = false
     }
   })
