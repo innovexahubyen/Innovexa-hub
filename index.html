@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- SEO Meta -->
   <title>Join Innovexa Hub — Membership Registration</title>
-  <meta name="description" content="Register to become an Operative of Innovexa Hub, the premier student-led tech & developer club. Initialize your future today." />
+  <meta name="description"
+    content="Register to become an Operative of Innovexa Hub, the premier student-led tech & developer club. Initialize your future today." />
   <meta name="keywords" content="Innovexa Hub, tech club, developer community, registration" />
 
   <!-- Tailwind CSS via CDN -->
@@ -15,7 +17,9 @@
   <!-- Google Fonts: Inter (sans) + JetBrains Mono (mono) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
 
   <!-- Tailwind Config -->
   <script>
@@ -28,7 +32,7 @@
           },
           colors: {
             accent: {
-              50:  '#eef2ff',
+              50: '#eef2ff',
               100: '#e0e7ff',
               200: '#c7d2fe',
               300: '#a5b4fc',
@@ -40,7 +44,7 @@
               900: '#312e81',
             },
             surface: {
-              50:  '#fafafa',
+              50: '#fafafa',
               100: '#f5f5f5',
               200: '#e5e5e5',
               300: '#d4d4d4',
@@ -79,30 +83,45 @@
 
   <style>
     /* ── Base Resets ─────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
     /* ── Custom Checkbox Pill Styles ─────────────────────── */
     .interest-chip {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .interest-chip:hover {
       border-color: #818cf8;
       background: #eef2ff;
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);
     }
+
     .interest-chip.selected {
       border-color: #6366f1;
       background: linear-gradient(135deg, #eef2ff, #e0e7ff);
       color: #4338ca;
       box-shadow: 0 2px 12px rgba(99, 102, 241, 0.18);
     }
+
     .interest-chip.selected .chip-check {
       opacity: 1;
       transform: scale(1);
     }
+
     .chip-check {
       opacity: 0;
       transform: scale(0);
@@ -127,8 +146,8 @@
     .grid-bg {
       background-size: 40px 40px;
       background-image:
-        linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
     }
 
     /* ── Submit Button Shimmer ───────────────────────────── */
@@ -136,24 +155,42 @@
       position: relative;
       overflow: hidden;
     }
+
     .btn-deploy::before {
       content: '';
       position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
       transition: left 0.5s ease;
     }
+
     .btn-deploy:hover::before {
       left: 100%;
     }
 
     /* ── Stagger animation delays ────────────────────────── */
-    .stagger-1 { animation-delay: 0.1s; }
-    .stagger-2 { animation-delay: 0.2s; }
-    .stagger-3 { animation-delay: 0.3s; }
-    .stagger-4 { animation-delay: 0.4s; }
-    .stagger-5 { animation-delay: 0.5s; }
+    .stagger-1 {
+      animation-delay: 0.1s;
+    }
+
+    .stagger-2 {
+      animation-delay: 0.2s;
+    }
+
+    .stagger-3 {
+      animation-delay: 0.3s;
+    }
+
+    .stagger-4 {
+      animation-delay: 0.4s;
+    }
+
+    .stagger-5 {
+      animation-delay: 0.5s;
+    }
 
     /* ── Select dropdown styling ─────────────────────────── */
     select.form-input {
@@ -166,44 +203,81 @@
     }
 
     /* ── Scrollbar ────────────────────────────────────────── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #d4d4d4;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a3a3a3;
+    }
 
     /* ── Toast Notification ───────────────────────────────── */
     .toast {
       animation: slideInRight 0.4s ease-out, fadeOut 0.4s ease-in 3.6s forwards;
     }
+
     @keyframes slideInRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to   { transform: translateX(0);    opacity: 1; }
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
+
     @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
     }
 
     /* ── Payment Modal Overlay ───────────────────────────── */
     .modal-overlay {
       animation: fadeIn 0.3s ease-out;
     }
+
     .modal-content {
       animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     @keyframes modalSlideUp {
-      from { opacity: 0; transform: translateY(30px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     /* ── UPI App Button ──────────────────────────────────── */
     .upi-app-btn {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     .upi-app-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px -4px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.12);
     }
+
     .upi-app-btn:active {
       transform: translateY(0);
     }
@@ -215,12 +289,19 @@
       animation: typeLine 0.6s steps(40) forwards;
       opacity: 0;
     }
+
     .terminal-line.visible {
       opacity: 1;
     }
+
     @keyframes typeLine {
-      from { width: 0; }
-      to   { width: 100%; }
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 100%;
+      }
     }
 
     /* ── Verification progress bar ───────────────────────── */
@@ -229,9 +310,15 @@
       background-size: 200% 100%;
       animation: shimmerProgress 1.5s ease-in-out infinite;
     }
+
     @keyframes shimmerProgress {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
     }
   </style>
 </head>
@@ -261,8 +348,11 @@
               <p class="font-mono text-xs text-white/60 uppercase tracking-wider">Payment Node</p>
               <h3 class="text-lg font-bold mt-0.5">Complete Payment</h3>
             </div>
-            <button id="modal-close" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            <button id="modal-close"
+              class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </div>
           <div class="mt-3 flex items-baseline gap-2">
@@ -278,9 +368,23 @@
           <!-- UPI App Buttons -->
           <div class="grid grid-cols-2 gap-3 mb-5" id="upi-app-grid">
             <!-- GPay -->
-            <a id="btn-gpay" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-accent-300 cursor-pointer no-underline">
-              <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-soft border border-neutral-100">
-                <svg viewBox="0 0 24 24" class="w-6 h-6"><path d="M3.8 7.58l3.54 6.18-.02.01 1.76 3.08a2.29 2.29 0 003.93.02l7.13-12.42a.63.63 0 00-.55-.94h-2.9a1.14 1.14 0 00-1 .58L11.5 12l-2.26-3.91a1.14 1.14 0 00-1-.58H5.38a1.14 1.14 0 00-1 1.68L3.8 7.58z" fill="#4285F4"/><path d="M20.14 3.51H17.24a1.14 1.14 0 00-1 .58l-2.8 4.88 2.27 3.95 4.94-8.47a.63.63 0 00-.54-.94z" fill="#EA4335"/><path d="M11.5 12l-2.26-3.91a1.14 1.14 0 00-1-.58H5.38a1.14 1.14 0 00-1 1.68l3.54 6.18-.02.01 1.76 3.08a2.29 2.29 0 001.97 1.15L11.5 12z" fill="#34A853"/><path d="M11.5 12l.13 7.61a2.29 2.29 0 001.96-1.14l7.13-12.42a.63.63 0 00-.55-.94h-2.9a1.14 1.14 0 00-1 .58L11.5 12z" fill="#FBBC04"/></svg>
+            <a id="btn-gpay"
+              class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-accent-300 cursor-pointer no-underline">
+              <div
+                class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-soft border border-neutral-100">
+                <svg viewBox="0 0 24 24" class="w-6 h-6">
+                  <path
+                    d="M3.8 7.58l3.54 6.18-.02.01 1.76 3.08a2.29 2.29 0 003.93.02l7.13-12.42a.63.63 0 00-.55-.94h-2.9a1.14 1.14 0 00-1 .58L11.5 12l-2.26-3.91a1.14 1.14 0 00-1-.58H5.38a1.14 1.14 0 00-1 1.68L3.8 7.58z"
+                    fill="#4285F4" />
+                  <path d="M20.14 3.51H17.24a1.14 1.14 0 00-1 .58l-2.8 4.88 2.27 3.95 4.94-8.47a.63.63 0 00-.54-.94z"
+                    fill="#EA4335" />
+                  <path
+                    d="M11.5 12l-2.26-3.91a1.14 1.14 0 00-1-.58H5.38a1.14 1.14 0 00-1 1.68l3.54 6.18-.02.01 1.76 3.08a2.29 2.29 0 001.97 1.15L11.5 12z"
+                    fill="#34A853" />
+                  <path
+                    d="M11.5 12l.13 7.61a2.29 2.29 0 001.96-1.14l7.13-12.42a.63.63 0 00-.55-.94h-2.9a1.14 1.14 0 00-1 .58L11.5 12z"
+                    fill="#FBBC04" />
+                </svg>
               </div>
               <div>
                 <p class="text-sm font-semibold text-neutral-800">Google Pay</p>
@@ -289,9 +393,12 @@
             </a>
 
             <!-- PhonePe -->
-            <a id="btn-phonepe" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-purple-300 cursor-pointer no-underline">
+            <a id="btn-phonepe"
+              class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-purple-300 cursor-pointer no-underline">
               <div class="w-10 h-10 rounded-xl bg-[#5f259f] flex items-center justify-center shadow-soft">
-                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="white"><path d="M7.5 3h2.7l4.2 7.5V3H17v18h-2.3L10.2 13v8H7.5V3z"/></svg>
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="white">
+                  <path d="M7.5 3h2.7l4.2 7.5V3H17v18h-2.3L10.2 13v8H7.5V3z" />
+                </svg>
               </div>
               <div>
                 <p class="text-sm font-semibold text-neutral-800">PhonePe</p>
@@ -300,7 +407,8 @@
             </a>
 
             <!-- Paytm -->
-            <a id="btn-paytm" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-blue-300 cursor-pointer no-underline">
+            <a id="btn-paytm"
+              class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-blue-300 cursor-pointer no-underline">
               <div class="w-10 h-10 rounded-xl bg-[#00BAF2] flex items-center justify-center shadow-soft">
                 <span class="text-white font-bold text-xs">Pay</span>
               </div>
@@ -311,9 +419,13 @@
             </a>
 
             <!-- Any UPI App -->
-            <a id="btn-upi-generic" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-emerald-300 cursor-pointer no-underline">
+            <a id="btn-upi-generic"
+              class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-emerald-300 cursor-pointer no-underline">
               <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center shadow-soft">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
               </div>
               <div>
                 <p class="text-sm font-semibold text-neutral-800">Any UPI</p>
@@ -335,22 +447,29 @@
               <p class="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">UPI ID</p>
               <p class="text-sm font-mono font-semibold text-neutral-700 mt-0.5" id="display-upi-id">innovexahub@axl</p>
             </div>
-            <button id="copy-upi-btn" class="text-xs font-medium text-accent-600 hover:text-accent-700 bg-accent-50 hover:bg-accent-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+            <button id="copy-upi-btn"
+              class="text-xs font-medium text-accent-600 hover:text-accent-700 bg-accent-50 hover:bg-accent-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
               Copy
             </button>
           </div>
 
           <!-- Already Paid? -->
-          <button id="btn-already-paid" class="w-full mt-5 py-3 rounded-xl border-2 border-dashed border-neutral-200 hover:border-accent-300 hover:bg-accent-50/30 text-sm font-medium text-neutral-500 hover:text-accent-600 transition-all cursor-pointer flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <button id="btn-already-paid"
+            class="w-full mt-5 py-3 rounded-xl border-2 border-dashed border-neutral-200 hover:border-accent-300 hover:bg-accent-50/30 text-sm font-medium text-neutral-500 hover:text-accent-600 transition-all cursor-pointer flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             I've already paid → Enter Transaction ID
           </button>
         </div>
 
         <!-- STEP 2: Enter UTR / Transaction ID (hidden initially) -->
         <div id="payment-step-2" class="hidden p-6">
-          <button id="btn-back-to-step1" class="flex items-center gap-1 text-xs text-neutral-400 hover:text-neutral-600 mb-4 cursor-pointer transition-colors">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          <button id="btn-back-to-step1"
+            class="flex items-center gap-1 text-xs text-neutral-400 hover:text-neutral-600 mb-4 cursor-pointer transition-colors">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
             Back
           </button>
 
@@ -372,11 +491,8 @@
             <label for="utr-input" class="block text-sm font-medium text-neutral-600 mb-1.5">
               UTR / Transaction ID <span class="text-red-400">*</span>
             </label>
-            <input
-              type="text" id="utr-input" maxlength="22" required
-              placeholder="e.g. 412345678901"
-              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm font-mono placeholder:text-neutral-300 outline-none transition-all duration-200 tracking-wider"
-            />
+            <input type="text" id="utr-input" maxlength="22" required placeholder="e.g. 412345678901"
+              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm font-mono placeholder:text-neutral-300 outline-none transition-all duration-200 tracking-wider" />
             <p id="utr-error" class="hidden text-xs text-red-500 mt-1.5"></p>
             <p class="text-[10px] text-neutral-400 mt-1.5">
               Find this in your payment app → Transaction History → Payment Details
@@ -385,11 +501,16 @@
 
           <!-- Where to find UTR -->
           <details class="mb-5 group">
-            <summary class="text-xs text-accent-600 cursor-pointer hover:text-accent-700 font-medium flex items-center gap-1">
-              <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <summary
+              class="text-xs text-accent-600 cursor-pointer hover:text-accent-700 font-medium flex items-center gap-1">
+              <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor"
+                stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
               Where do I find the UTR number?
             </summary>
-            <div class="mt-2 text-xs text-neutral-500 bg-surface-50 rounded-lg p-3 border border-neutral-100 space-y-1.5">
+            <div
+              class="mt-2 text-xs text-neutral-500 bg-surface-50 rounded-lg p-3 border border-neutral-100 space-y-1.5">
               <p><strong class="text-neutral-600">GPay:</strong> Activity → Payment → "UPI transaction ID"</p>
               <p><strong class="text-neutral-600">PhonePe:</strong> History → Transaction → "UTR"</p>
               <p><strong class="text-neutral-600">Paytm:</strong> Passbook → Transaction → "Reference No"</p>
@@ -398,8 +519,12 @@
           </details>
 
           <!-- Submit UTR -->
-          <button id="btn-verify-utr" class="btn-deploy w-full flex items-center justify-center gap-2 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-3.5 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <button id="btn-verify-utr"
+            class="btn-deploy w-full flex items-center justify-center gap-2 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-3.5 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
             <span id="verify-btn-text">Submit Proof of Work</span>
             <svg id="verify-spinner" class="hidden animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -412,9 +537,12 @@
         <div id="payment-step-3" class="hidden p-6">
           <div class="text-center py-4">
             <!-- Scanning animation -->
-            <div class="mx-auto w-16 h-16 rounded-full bg-accent-50 border-2 border-accent-200 flex items-center justify-center mb-5 animate-pulse-slow">
-              <svg class="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+            <div
+              class="mx-auto w-16 h-16 rounded-full bg-accent-50 border-2 border-accent-200 flex items-center justify-center mb-5 animate-pulse-slow">
+              <svg class="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" stroke-width="1.5"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
             </div>
 
@@ -427,7 +555,8 @@
 
             <!-- Progress bar -->
             <div class="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-              <div id="verify-progress-bar" class="verify-progress h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+              <div id="verify-progress-bar" class="verify-progress h-full rounded-full transition-all duration-500"
+                style="width: 0%"></div>
             </div>
             <p class="text-xs text-neutral-400 mt-3 font-mono" id="verify-status-text">Scanning payment node...</p>
           </div>
@@ -449,11 +578,13 @@
         </span>
       </a>
       <div class="flex items-center gap-4">
-        <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono text-neutral-400 bg-surface-100 px-3 py-1.5 rounded-full border border-neutral-200/60">
+        <span
+          class="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono text-neutral-400 bg-surface-100 px-3 py-1.5 rounded-full border border-neutral-200/60">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           registration.open
         </span>
-        <a href="#registration-form" class="text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors" id="nav-register-link">
+        <a href="#registration-form" class="text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"
+          id="nav-register-link">
           Register →
         </a>
       </div>
@@ -465,15 +596,19 @@
        ════════════════════════════════════════════════════════ -->
   <header class="relative pt-16 hero-mesh grid-bg overflow-hidden">
     <div class="absolute top-24 left-10 w-72 h-72 bg-accent-500/5 rounded-full blur-3xl animate-float"></div>
-    <div class="absolute bottom-10 right-10 w-56 h-56 bg-purple-500/5 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+    <div class="absolute bottom-10 right-10 w-56 h-56 bg-purple-500/5 rounded-full blur-3xl animate-float"
+      style="animation-delay: 2s;"></div>
 
     <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28 flex flex-col items-center text-center">
-      <div class="animate-fade-in inline-flex items-center gap-2 bg-white border border-neutral-200 rounded-full px-4 py-1.5 mb-8 shadow-soft">
+      <div
+        class="animate-fade-in inline-flex items-center gap-2 bg-white border border-neutral-200 rounded-full px-4 py-1.5 mb-8 shadow-soft">
         <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse-slow"></span>
-        <span class="text-xs font-mono font-medium text-neutral-500 tracking-wide uppercase">Innovexa Hub · Est. 2025</span>
+        <span class="text-xs font-mono font-medium text-neutral-500 tracking-wide uppercase">Innovexa Hub · Est.
+          2025</span>
       </div>
 
-      <h1 class="animate-slide-up text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-4xl">
+      <h1
+        class="animate-slide-up text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-4xl">
         Initialize Your
         <span class="bg-gradient-to-r from-accent-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
           Future.
@@ -490,9 +625,10 @@
       </p>
 
       <a href="#registration-form" id="hero-cta"
-         class="animate-slide-up stagger-3 mt-10 inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm px-7 py-3.5 rounded-full shadow-glow hover:shadow-lg transition-all duration-300 group">
+        class="animate-slide-up stagger-3 mt-10 inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm px-7 py-3.5 rounded-full shadow-glow hover:shadow-lg transition-all duration-300 group">
         <span>Begin Registration</span>
-        <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor"
+          stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </a>
@@ -523,7 +659,8 @@
     <div class="max-w-3xl mx-auto px-6">
 
       <div class="text-center mb-12">
-        <span class="inline-block font-mono text-xs text-accent-500 bg-accent-50 border border-accent-200/60 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
+        <span
+          class="inline-block font-mono text-xs text-accent-500 bg-accent-50 border border-accent-200/60 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
           &gt;_ new Operative()
         </span>
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
@@ -539,7 +676,8 @@
         <!-- ── SECTION 1: Personal Details ────────────────── -->
         <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-6">
           <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
-            <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">01</span>
+            <span
+              class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">01</span>
             Personal Details
           </legend>
 
@@ -547,11 +685,8 @@
             <label for="full-name" class="block text-sm font-medium text-neutral-600 mb-1.5">
               Full Name <span class="text-red-400">*</span>
             </label>
-            <input
-              type="text" id="full-name" name="fullName" required autocomplete="name"
-              placeholder="e.g. Jai Akash"
-              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200"
-            />
+            <input type="text" id="full-name" name="fullName" required autocomplete="name" placeholder="e.g. Jai Akash"
+              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -559,21 +694,15 @@
               <label for="email" class="block text-sm font-medium text-neutral-600 mb-1.5">
                 University Email <span class="text-red-400">*</span>
               </label>
-              <input
-                type="email" id="email" name="email" required autocomplete="email"
-                placeholder="you@example.com"
-                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200"
-              />
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com"
+                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
             </div>
             <div>
               <label for="phone" class="block text-sm font-medium text-neutral-600 mb-1.5">
                 Phone Number <span class="text-red-400">*</span>
               </label>
-              <input
-                type="tel" id="phone" name="phone" required autocomplete="tel"
-                placeholder="+91 98765 43210"
-                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200"
-              />
+              <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="+91 98765 43210"
+                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
             </div>
           </div>
 
@@ -581,10 +710,8 @@
             <label for="year-of-study" class="block text-sm font-medium text-neutral-600 mb-1.5">
               Year of Study <span class="text-red-400">*</span>
             </label>
-            <select
-              id="year-of-study" name="yearOfStudy" required
-              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200 cursor-pointer"
-            >
+            <select id="year-of-study" name="yearOfStudy" required
+              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200 cursor-pointer">
               <option value="" disabled selected>Select year</option>
               <option value="1">1st Year</option>
               <option value="2">2nd Year</option>
@@ -597,7 +724,8 @@
         <!-- ── SECTION 2: Developer Links ─────────────────── -->
         <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-6">
           <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
-            <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">02</span>
+            <span
+              class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">02</span>
             Developer Links
           </legend>
 
@@ -608,13 +736,13 @@
             </label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                </svg>
               </span>
-              <input
-                type="url" id="github-url" name="githubUrl"
-                placeholder="https://github.com/yourusername"
-                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200"
-              />
+              <input type="url" id="github-url" name="githubUrl" placeholder="https://github.com/yourusername"
+                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
             </div>
           </div>
 
@@ -625,13 +753,13 @@
             </label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
               </span>
-              <input
-                type="url" id="linkedin-url" name="linkedinUrl"
-                placeholder="https://linkedin.com/in/yourprofile"
-                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200"
-              />
+              <input type="url" id="linkedin-url" name="linkedinUrl" placeholder="https://linkedin.com/in/yourprofile"
+                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
             </div>
           </div>
         </fieldset>
@@ -639,10 +767,12 @@
         <!-- ── SECTION 3: Tech Stack Interests ────────────── -->
         <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-5">
           <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
-            <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">03</span>
+            <span
+              class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">03</span>
             Tech Stack Interests
           </legend>
-          <p class="text-xs text-neutral-400">Select all that apply — these help us assign you to the right working groups.</p>
+          <p class="text-xs text-neutral-400">Select all that apply — these help us assign you to the right working
+            groups.</p>
 
           <div id="interests-grid" class="flex flex-wrap gap-3"></div>
           <input type="hidden" id="selected-interests" name="interests" />
@@ -653,10 +783,12 @@
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div>
               <p class="text-sm font-semibold text-neutral-700 flex items-center gap-2">
-                <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">04</span>
+                <span
+                  class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">04</span>
                 Registration Fee
               </p>
-              <p class="text-xs text-neutral-400 mt-1 ml-8">One-time membership fee – pay via UPI (GPay, PhonePe, Paytm)</p>
+              <p class="text-xs text-neutral-400 mt-1 ml-8">One-time membership fee – pay via UPI (GPay, PhonePe, Paytm)
+              </p>
             </div>
             <div class="ml-8 sm:ml-0">
               <span class="text-3xl font-bold text-neutral-800">₹1</span>
@@ -666,12 +798,11 @@
 
           <div class="h-px bg-neutral-100 mb-6"></div>
 
-          <button
-            type="submit" id="btn-submit"
-            class="btn-deploy w-full flex items-center justify-center gap-3 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-4 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-          >
+          <button type="submit" id="btn-submit"
+            class="btn-deploy w-full flex items-center justify-center gap-3 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-4 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.84 2.58m0 0a6 6 0 01-7.38-5.84h4.8" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.84 2.58m0 0a6 6 0 01-7.38-5.84h4.8" />
             </svg>
             <span id="btn-text">Pay ₹1 &amp; Deploy Membership</span>
             <svg id="btn-spinner" class="hidden animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
@@ -681,7 +812,10 @@
           </button>
 
           <p class="text-center text-[11px] text-neutral-300 mt-4 flex items-center justify-center gap-1.5">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
             Direct UPI Payment · Zero gateway fees · Instant
           </p>
         </div>
@@ -713,8 +847,8 @@
        ════════════════════════════════════════════════════════ -->
   <script>
     // ─── Configuration ──────────────────────────────────────
-    const UPI_ID     = 'innovexahub@axl';   // Your UPI ID
-    const UPI_NAME   = 'Innovexa Hub';      // Payee display name
+    const UPI_ID = 'innovexahub@axl';   // Your UPI ID
+    const UPI_NAME = 'Innovexa Hub';      // Payee display name
     const FEE_AMOUNT = 1;                   // Amount in ₹
     const FEE_DISPLAY = '₹1';
 
@@ -731,7 +865,7 @@
      *    Execute as: Me | Who has access: Anyone
      * 6. Copy the URL and paste it below:
      */
-    const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // <-- 🔗 PASTE URL HERE
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9OofGjq1F43dnLhsogSZyyHpM1DnDWNb4SQs0rYKx5RVmrTS0QM2UELNnCjsloCd88A/exec'; // <-- 🔗 PASTE URL HERE
 
     // ─── Duplicate Guard (localStorage-based) ───────────────
     // Stores submitted UTRs locally to prevent duplicate submissions.
@@ -776,27 +910,27 @@
 
       // App-specific deep links for mobile
       switch (app) {
-        case 'gpay':     return `tez://upi/pay?${params.toString()}`;
-        case 'phonepe':  return `phonepe://pay?${params.toString()}`;
-        case 'paytm':    return `paytm://upi/pay?${params.toString()}`;
-        default:         return upiUrl;
+        case 'gpay': return `tez://upi/pay?${params.toString()}`;
+        case 'phonepe': return `phonepe://pay?${params.toString()}`;
+        case 'paytm': return `paytm://upi/pay?${params.toString()}`;
+        default: return upiUrl;
       }
     }
 
     // ─── Tech Stack Interest Chips ──────────────────────────
     const INTERESTS = [
-      { id: 'aiml',     label: 'AI / ML',         icon: '🤖' },
-      { id: 'webdev',   label: 'Web Dev',          icon: '🌐' },
-      { id: 'cloud',    label: 'Cloud & DevOps',   icon: '☁️' },
-      { id: 'uiux',     label: 'UI / UX Design',   icon: '🎨' },
-      { id: 'cybersec', label: 'Cyber Security',    icon: '🛡️' },
-      { id: 'mobile',   label: 'Mobile Dev',        icon: '📱' },
-      { id: 'blockchain',label:'Blockchain',        icon: '⛓️' },
-      { id: 'gamedev',  label: 'Game Dev',          icon: '🎮' },
-      { id: 'dsa',      label: 'DSA & CP',         icon: '⚡' },
-      { id: 'iot',      label: 'IoT & Embedded',   icon: '🔌' },
-      { id: 'opensource',label: 'Open Source',       icon: '💻' },
-      { id: 'data',     label: 'Data Science',     icon: '📊' },
+      { id: 'aiml', label: 'AI / ML', icon: '🤖' },
+      { id: 'webdev', label: 'Web Dev', icon: '🌐' },
+      { id: 'cloud', label: 'Cloud & DevOps', icon: '☁️' },
+      { id: 'uiux', label: 'UI / UX Design', icon: '🎨' },
+      { id: 'cybersec', label: 'Cyber Security', icon: '🛡️' },
+      { id: 'mobile', label: 'Mobile Dev', icon: '📱' },
+      { id: 'blockchain', label: 'Blockchain', icon: '⛓️' },
+      { id: 'gamedev', label: 'Game Dev', icon: '🎮' },
+      { id: 'dsa', label: 'DSA & CP', icon: '⚡' },
+      { id: 'iot', label: 'IoT & Embedded', icon: '🔌' },
+      { id: 'opensource', label: 'Open Source', icon: '💻' },
+      { id: 'data', label: 'Data Science', icon: '📊' },
     ];
 
     const selectedInterests = new Set();
@@ -839,13 +973,13 @@
     // ─── Form Validation ────────────────────────────────────
     function validateForm() {
       const form = document.getElementById('innovexa-registration-form');
-      const fullName   = form.fullName.value.trim();
-      const email      = form.email.value.trim();
-      const phone      = form.phone.value.trim();
-      const year       = form.yearOfStudy.value;
-      const githubUrl  = form.githubUrl.value.trim();
-      const linkedinUrl= form.linkedinUrl.value.trim();
-      const interests  = document.getElementById('selected-interests').value;
+      const fullName = form.fullName.value.trim();
+      const email = form.email.value.trim();
+      const phone = form.phone.value.trim();
+      const year = form.yearOfStudy.value;
+      const githubUrl = form.githubUrl.value.trim();
+      const linkedinUrl = form.linkedinUrl.value.trim();
+      const interests = document.getElementById('selected-interests').value;
 
       if (!fullName) { showToast('Please enter your full name.', 'error'); focusField('full-name'); return null; }
       if (!email || !email.includes('@')) { showToast('Please enter a valid email.', 'error'); focusField('email'); return null; }
@@ -872,13 +1006,13 @@
 
       const colors = {
         success: 'bg-emerald-50 border-emerald-200 text-emerald-700',
-        error:   'bg-red-50 border-red-200 text-red-700',
-        info:    'bg-accent-50 border-accent-200 text-accent-700',
+        error: 'bg-red-50 border-red-200 text-red-700',
+        info: 'bg-accent-50 border-accent-200 text-accent-700',
       };
       const icons = {
         success: '✓',
-        error:   '✕',
-        info:    'ℹ',
+        error: '✕',
+        info: 'ℹ',
       };
 
       toast.className = `toast flex items-center gap-3 px-5 py-3 rounded-xl border shadow-elevated text-sm font-medium ${colors[type] || colors.info}`;
@@ -894,10 +1028,10 @@
     }
 
     // ─── Payment Modal Controls ─────────────────────────────
-    const modal     = document.getElementById('payment-modal');
-    const step1     = document.getElementById('payment-step-1');
-    const step2     = document.getElementById('payment-step-2');
-    const step3     = document.getElementById('payment-step-3');
+    const modal = document.getElementById('payment-modal');
+    const step1 = document.getElementById('payment-step-1');
+    const step2 = document.getElementById('payment-step-2');
+    const step3 = document.getElementById('payment-step-3');
 
     function openPaymentModal() {
       modal.classList.remove('hidden');
@@ -928,9 +1062,9 @@
     // ─── UPI App Button Handlers ────────────────────────────
     // Set deep links on UPI buttons
     function setUPILinks() {
-      document.getElementById('btn-gpay').href        = generateUPILink('gpay');
-      document.getElementById('btn-phonepe').href     = generateUPILink('phonepe');
-      document.getElementById('btn-paytm').href       = generateUPILink('paytm');
+      document.getElementById('btn-gpay').href = generateUPILink('gpay');
+      document.getElementById('btn-phonepe').href = generateUPILink('phonepe');
+      document.getElementById('btn-paytm').href = generateUPILink('paytm');
       document.getElementById('btn-upi-generic').href = generateUPILink('generic');
     }
 
@@ -1001,15 +1135,15 @@
       }
 
       const payload = {
-        fullName:    formData.fullName,
-        email:       formData.email,
-        phone:       formData.phone,
-        year:        formData.year,
-        githubUrl:   formData.githubUrl   || '',
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        year: formData.year,
+        githubUrl: formData.githubUrl || '',
         linkedinUrl: formData.linkedinUrl || '',
-        interests:   formData.interests   || '',
-        utr:         utr,
-        amount:      FEE_AMOUNT,
+        interests: formData.interests || '',
+        utr: utr,
+        amount: FEE_AMOUNT,
       };
 
       try {
@@ -1036,8 +1170,8 @@
       showStep(3);
 
       const terminalOutput = document.getElementById('terminal-output');
-      const progressBar    = document.getElementById('verify-progress-bar');
-      const statusText     = document.getElementById('verify-status-text');
+      const progressBar = document.getElementById('verify-progress-bar');
+      const statusText = document.getElementById('verify-status-text');
       terminalOutput.innerHTML = '';
 
       const lines = [
@@ -1082,7 +1216,7 @@
     document.getElementById('btn-verify-utr').addEventListener('click', () => {
       const utrInput = document.getElementById('utr-input');
       const utrError = document.getElementById('utr-error');
-      const utr      = utrInput.value.trim();
+      const utr = utrInput.value.trim();
 
       // Validate
       const result = validateUTR(utr);
@@ -1191,7 +1325,7 @@
 
     // ─── Form Submit Handler ────────────────────────────────
     document.getElementById('innovexa-registration-form')
-      .addEventListener('submit', function(e) {
+      .addEventListener('submit', function (e) {
         e.preventDefault();
 
         const formData = validateForm();
@@ -1223,4 +1357,5 @@
   </script>
 
 </body>
+
 </html>
