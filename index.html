@@ -11,6 +11,9 @@
     content="Register to become an Operative of Innovexa Hub, the premier student-led tech & developer club. Initialize your future today." />
   <meta name="keywords" content="Innovexa Hub, tech club, developer community, registration" />
 
+  <!-- Payment Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -320,6 +323,13 @@
         background-position: -200% 0;
       }
     }
+    /* ── QR Code Styling ────────────────────────────────── */
+    #qrcode-container img {
+      margin: 0 auto;
+      border: 8px solid white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
   </style>
 </head>
 
@@ -432,6 +442,21 @@
                 <p class="text-[10px] text-neutral-400">Default app</p>
               </div>
             </a>
+          </div>
+
+          </div>
+
+          <!-- OR Label -->
+          <div class="flex items-center gap-3 my-4">
+            <div class="h-px bg-neutral-100 flex-1"></div>
+            <span class="text-[10px] font-mono text-neutral-300 uppercase tracking-wider">OR Scan QR</span>
+            <div class="h-px bg-neutral-100 flex-1"></div>
+          </div>
+
+          <!-- QR Code Fallback -->
+          <div id="qrcode-container" class="flex flex-col items-center justify-center bg-surface-50 p-6 rounded-xl border border-neutral-100 mb-5">
+            <div id="qrcode" class="mb-3"></div>
+            <p class="text-[10px] text-neutral-400 font-medium">Scan to pay with any UPI app</p>
           </div>
 
           <!-- Divider -->
@@ -847,9 +872,9 @@
        ════════════════════════════════════════════════════════ -->
   <script>
     // ─── Configuration ──────────────────────────────────────
-    const UPI_ID = 'innovexahub@axl';   // Your UPI ID
-    const UPI_NAME = 'Innovexa Hub';      // Payee display name
-    const FEE_AMOUNT = 10;                  // Amount in ₹
+    const UPI_ID = '9445253099@sbi';    // Your New UPI ID
+    const UPI_NAME = 'Innovexa Hub';    // Payee display name
+    const FEE_AMOUNT = 10;              // Amount in ₹
     const FEE_DISPLAY = '₹10';
 
     /**
@@ -898,15 +923,8 @@
      * with amount and payee pre-filled.
      */
     function generateUPILink(app) {
-      const params = new URLSearchParams({
-        pa: UPI_ID,                         // Payee UPI address
-        pn: UPI_NAME,                       // Payee name
-        am: FEE_AMOUNT.toString(),          // Amount
-        cu: 'INR',                          // Currency
-        tn: 'Hub Membership',               // Shortened transaction note (fixes bank errors)
-      });
-
-      const upiUrl = `upi://pay?${params.toString()}`;
+      // Very basic UPI link (highest compatibility)
+      const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${FEE_AMOUNT}&cu=INR`;
 
       // App-specific deep links for mobile
       switch (app) {
@@ -1036,6 +1054,20 @@
     function openPaymentModal() {
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
+      
+      // Generate QR Code dynamically
+      const qrElement = document.getElementById('qrcode');
+      qrElement.innerHTML = ''; // Clear previous
+      const upiLink = generateUPILink('generic');
+      new QRCode(qrElement, {
+        text: upiLink,
+        width: 160,
+        height: 160,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
       showStep(1);
     }
 
