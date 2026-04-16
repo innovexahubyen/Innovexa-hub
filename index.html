@@ -17,9 +17,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <!-- Razorpay Checkout Script (Test Mode) -->
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
   <!-- Tailwind Config -->
   <script>
     tailwind.config = {
@@ -36,7 +33,7 @@
               200: '#c7d2fe',
               300: '#a5b4fc',
               400: '#818cf8',
-              500: '#6366f1',  /* primary electric indigo */
+              500: '#6366f1',
               600: '#4f46e5',
               700: '#4338ca',
               800: '#3730a3',
@@ -186,30 +183,271 @@
       from { opacity: 1; }
       to   { opacity: 0; }
     }
+
+    /* ── Payment Modal Overlay ───────────────────────────── */
+    .modal-overlay {
+      animation: fadeIn 0.3s ease-out;
+    }
+    .modal-content {
+      animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── UPI App Button ──────────────────────────────────── */
+    .upi-app-btn {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .upi-app-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(0,0,0,0.12);
+    }
+    .upi-app-btn:active {
+      transform: translateY(0);
+    }
+
+    /* ── Terminal typing animation ────────────────────────── */
+    .terminal-line {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typeLine 0.6s steps(40) forwards;
+      opacity: 0;
+    }
+    .terminal-line.visible {
+      opacity: 1;
+    }
+    @keyframes typeLine {
+      from { width: 0; }
+      to   { width: 100%; }
+    }
+
+    /* ── Verification progress bar ───────────────────────── */
+    .verify-progress {
+      background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+      background-size: 200% 100%;
+      animation: shimmerProgress 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmerProgress {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
   </style>
 </head>
 
 <body class="bg-white font-sans text-neutral-800 min-h-screen">
 
   <!-- ════════════════════════════════════════════════════════
-       TOAST CONTAINER (for success / error messages)
+       TOAST CONTAINER
        ════════════════════════════════════════════════════════ -->
-  <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-3"></div>
+  <div id="toast-container" class="fixed top-6 right-6 z-[60] flex flex-col gap-3"></div>
+
+  <!-- ════════════════════════════════════════════════════════
+       PAYMENT MODAL (hidden by default)
+       ════════════════════════════════════════════════════════ -->
+  <div id="payment-modal" class="hidden fixed inset-0 z-50">
+    <!-- Backdrop -->
+    <div class="modal-overlay absolute inset-0 bg-black/40 backdrop-blur-sm" id="modal-backdrop"></div>
+
+    <!-- Modal Content -->
+    <div class="modal-content relative z-10 flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white rounded-2xl border border-neutral-200 shadow-elevated w-full max-w-md overflow-hidden">
+
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-accent-500 to-purple-500 px-6 py-5 text-white">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-mono text-xs text-white/60 uppercase tracking-wider">Payment Node</p>
+              <h3 class="text-lg font-bold mt-0.5">Complete Payment</h3>
+            </div>
+            <button id="modal-close" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          <div class="mt-3 flex items-baseline gap-2">
+            <span class="text-3xl font-bold">₹1</span>
+            <span class="text-sm text-white/60">Registration Fee</span>
+          </div>
+        </div>
+
+        <!-- STEP 1: Choose Payment Method (shown initially) -->
+        <div id="payment-step-1" class="p-6">
+          <p class="text-sm text-neutral-500 mb-4">Select your UPI app to pay directly:</p>
+
+          <!-- UPI App Buttons -->
+          <div class="grid grid-cols-2 gap-3 mb-5" id="upi-app-grid">
+            <!-- GPay -->
+            <a id="btn-gpay" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-accent-300 cursor-pointer no-underline">
+              <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-soft border border-neutral-100">
+                <svg viewBox="0 0 24 24" class="w-6 h-6"><path d="M3.8 7.58l3.54 6.18-.02.01 1.76 3.08a2.29 2.29 0 003.93.02l7.13-12.42a.63.63 0 00-.55-.94h-2.9a1.14 1.14 0 00-1 .58L11.5 12l-2.26-3.91a1.14 1.14 0 00-1-.58H5.38a1.14 1.14 0 00-1 1.68L3.8 7.58z" fill="#4285F4"/><path d="M20.14 3.51H17.24a1.14 1.14 0 00-1 .58l-2.8 4.88 2.27 3.95 4.94-8.47a.63.63 0 00-.54-.94z" fill="#EA4335"/><path d="M11.5 12l-2.26-3.91a1.14 1.14 0 00-1-.58H5.38a1.14 1.14 0 00-1 1.68l3.54 6.18-.02.01 1.76 3.08a2.29 2.29 0 001.97 1.15L11.5 12z" fill="#34A853"/><path d="M11.5 12l.13 7.61a2.29 2.29 0 001.96-1.14l7.13-12.42a.63.63 0 00-.55-.94h-2.9a1.14 1.14 0 00-1 .58L11.5 12z" fill="#FBBC04"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-neutral-800">Google Pay</p>
+                <p class="text-[10px] text-neutral-400">Tap to pay</p>
+              </div>
+            </a>
+
+            <!-- PhonePe -->
+            <a id="btn-phonepe" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-purple-300 cursor-pointer no-underline">
+              <div class="w-10 h-10 rounded-xl bg-[#5f259f] flex items-center justify-center shadow-soft">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="white"><path d="M7.5 3h2.7l4.2 7.5V3H17v18h-2.3L10.2 13v8H7.5V3z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-neutral-800">PhonePe</p>
+                <p class="text-[10px] text-neutral-400">Tap to pay</p>
+              </div>
+            </a>
+
+            <!-- Paytm -->
+            <a id="btn-paytm" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-blue-300 cursor-pointer no-underline">
+              <div class="w-10 h-10 rounded-xl bg-[#00BAF2] flex items-center justify-center shadow-soft">
+                <span class="text-white font-bold text-xs">Pay</span>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-neutral-800">Paytm</p>
+                <p class="text-[10px] text-neutral-400">Tap to pay</p>
+              </div>
+            </a>
+
+            <!-- Any UPI App -->
+            <a id="btn-upi-generic" class="upi-app-btn flex items-center gap-3 px-4 py-3.5 rounded-xl border border-neutral-200 bg-white hover:border-emerald-300 cursor-pointer no-underline">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center shadow-soft">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-neutral-800">Any UPI</p>
+                <p class="text-[10px] text-neutral-400">Default app</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Divider -->
+          <div class="flex items-center gap-3 mb-5">
+            <div class="h-px bg-neutral-100 flex-1"></div>
+            <span class="text-[10px] font-mono text-neutral-300 uppercase tracking-wider">Pay to</span>
+            <div class="h-px bg-neutral-100 flex-1"></div>
+          </div>
+
+          <!-- UPI ID display -->
+          <div class="bg-surface-50 rounded-xl border border-neutral-200/60 p-4 flex items-center justify-between">
+            <div>
+              <p class="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">UPI ID</p>
+              <p class="text-sm font-mono font-semibold text-neutral-700 mt-0.5" id="display-upi-id">innovexahub@axl</p>
+            </div>
+            <button id="copy-upi-btn" class="text-xs font-medium text-accent-600 hover:text-accent-700 bg-accent-50 hover:bg-accent-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+              Copy
+            </button>
+          </div>
+
+          <!-- Already Paid? -->
+          <button id="btn-already-paid" class="w-full mt-5 py-3 rounded-xl border-2 border-dashed border-neutral-200 hover:border-accent-300 hover:bg-accent-50/30 text-sm font-medium text-neutral-500 hover:text-accent-600 transition-all cursor-pointer flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            I've already paid → Enter Transaction ID
+          </button>
+        </div>
+
+        <!-- STEP 2: Enter UTR / Transaction ID (hidden initially) -->
+        <div id="payment-step-2" class="hidden p-6">
+          <button id="btn-back-to-step1" class="flex items-center gap-1 text-xs text-neutral-400 hover:text-neutral-600 mb-4 cursor-pointer transition-colors">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            Back
+          </button>
+
+          <!-- Terminal-style verification intro -->
+          <div class="bg-neutral-900 rounded-xl p-4 mb-5 font-mono text-xs">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              <span class="ml-2 text-neutral-500">proof_of_work.sh</span>
+            </div>
+            <p class="text-emerald-400">$ awaiting transaction_hash...</p>
+            <p class="text-neutral-500">Enter the 12-digit UTR number</p>
+            <p class="text-neutral-500">from your payment app's receipt.</p>
+          </div>
+
+          <!-- UTR Input -->
+          <div class="mb-4">
+            <label for="utr-input" class="block text-sm font-medium text-neutral-600 mb-1.5">
+              UTR / Transaction ID <span class="text-red-400">*</span>
+            </label>
+            <input
+              type="text" id="utr-input" maxlength="22" required
+              placeholder="e.g. 412345678901"
+              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm font-mono placeholder:text-neutral-300 outline-none transition-all duration-200 tracking-wider"
+            />
+            <p id="utr-error" class="hidden text-xs text-red-500 mt-1.5"></p>
+            <p class="text-[10px] text-neutral-400 mt-1.5">
+              Find this in your payment app → Transaction History → Payment Details
+            </p>
+          </div>
+
+          <!-- Where to find UTR -->
+          <details class="mb-5 group">
+            <summary class="text-xs text-accent-600 cursor-pointer hover:text-accent-700 font-medium flex items-center gap-1">
+              <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              Where do I find the UTR number?
+            </summary>
+            <div class="mt-2 text-xs text-neutral-500 bg-surface-50 rounded-lg p-3 border border-neutral-100 space-y-1.5">
+              <p><strong class="text-neutral-600">GPay:</strong> Activity → Payment → "UPI transaction ID"</p>
+              <p><strong class="text-neutral-600">PhonePe:</strong> History → Transaction → "UTR"</p>
+              <p><strong class="text-neutral-600">Paytm:</strong> Passbook → Transaction → "Reference No"</p>
+              <p class="text-neutral-400 mt-1">It's usually a 12-digit number starting with digits.</p>
+            </div>
+          </details>
+
+          <!-- Submit UTR -->
+          <button id="btn-verify-utr" class="btn-deploy w-full flex items-center justify-center gap-2 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-3.5 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span id="verify-btn-text">Submit Proof of Work</span>
+            <svg id="verify-spinner" class="hidden animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- STEP 3: Verification Animation (hidden initially) -->
+        <div id="payment-step-3" class="hidden p-6">
+          <div class="text-center py-4">
+            <!-- Scanning animation -->
+            <div class="mx-auto w-16 h-16 rounded-full bg-accent-50 border-2 border-accent-200 flex items-center justify-center mb-5 animate-pulse-slow">
+              <svg class="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+              </svg>
+            </div>
+
+            <!-- Terminal output -->
+            <div class="bg-neutral-900 rounded-xl p-4 mb-5 font-mono text-xs text-left max-w-xs mx-auto">
+              <div id="terminal-output" class="space-y-1">
+                <!-- Lines added dynamically -->
+              </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+              <div id="verify-progress-bar" class="verify-progress h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p class="text-xs text-neutral-400 mt-3 font-mono" id="verify-status-text">Scanning payment node...</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- ════════════════════════════════════════════════════════
        NAVIGATION BAR
        ════════════════════════════════════════════════════════ -->
   <nav id="navbar" class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur-xl border-b border-neutral-200/60">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-      <!-- Logo + Name -->
       <a href="#" class="flex items-center gap-3 group" id="nav-logo">
         <img src="assets/logo.png" alt="Innovexa Hub Logo" class="h-9 w-9 object-contain rounded-lg" />
         <span class="font-bold text-lg tracking-tight">
           Innovexa<span class="text-accent-500">Hub</span>
         </span>
       </a>
-
-      <!-- Right Side -->
       <div class="flex items-center gap-4">
         <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono text-neutral-400 bg-surface-100 px-3 py-1.5 rounded-full border border-neutral-200/60">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -226,18 +464,15 @@
        HERO SECTION
        ════════════════════════════════════════════════════════ -->
   <header class="relative pt-16 hero-mesh grid-bg overflow-hidden">
-    <!-- Floating Decorative Elements -->
     <div class="absolute top-24 left-10 w-72 h-72 bg-accent-500/5 rounded-full blur-3xl animate-float"></div>
     <div class="absolute bottom-10 right-10 w-56 h-56 bg-purple-500/5 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
 
     <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28 flex flex-col items-center text-center">
-      <!-- Badge -->
       <div class="animate-fade-in inline-flex items-center gap-2 bg-white border border-neutral-200 rounded-full px-4 py-1.5 mb-8 shadow-soft">
         <span class="w-2 h-2 rounded-full bg-accent-500 animate-pulse-slow"></span>
         <span class="text-xs font-mono font-medium text-neutral-500 tracking-wide uppercase">Innovexa Hub · Est. 2025</span>
       </div>
 
-      <!-- Main Heading -->
       <h1 class="animate-slide-up text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-4xl">
         Initialize Your
         <span class="bg-gradient-to-r from-accent-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
@@ -249,13 +484,11 @@
         </span>
       </h1>
 
-      <!-- Subtext -->
       <p class="animate-slide-up stagger-2 mt-6 text-base md:text-lg text-neutral-500 max-w-xl leading-relaxed">
         Innovexa Hub is the premier student-led tech &amp; developer community.
         Build projects, attend workshops, and ship code with your cohort.
       </p>
 
-      <!-- CTA Arrow -->
       <a href="#registration-form" id="hero-cta"
          class="animate-slide-up stagger-3 mt-10 inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm px-7 py-3.5 rounded-full shadow-glow hover:shadow-lg transition-all duration-300 group">
         <span>Begin Registration</span>
@@ -264,7 +497,6 @@
         </svg>
       </a>
 
-      <!-- Stats Row -->
       <div class="animate-slide-up stagger-4 mt-14 grid grid-cols-3 gap-8 md:gap-16">
         <div class="text-center">
           <p class="text-2xl md:text-3xl font-bold text-neutral-800">100+</p>
@@ -281,7 +513,6 @@
       </div>
     </div>
 
-    <!-- Divider wave -->
     <div class="h-px bg-gradient-to-r from-transparent via-neutral-200 to-transparent"></div>
   </header>
 
@@ -291,7 +522,6 @@
   <main class="relative py-16 md:py-24 bg-surface-50 grid-bg" id="registration-form">
     <div class="max-w-3xl mx-auto px-6">
 
-      <!-- Section Header -->
       <div class="text-center mb-12">
         <span class="inline-block font-mono text-xs text-accent-500 bg-accent-50 border border-accent-200/60 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
           &gt;_ new Operative()
@@ -304,7 +534,6 @@
         </p>
       </div>
 
-      <!-- ── THE FORM ─────────────────────────────────────── -->
       <form id="innovexa-registration-form" class="space-y-10" novalidate>
 
         <!-- ── SECTION 1: Personal Details ────────────────── -->
@@ -314,7 +543,6 @@
             Personal Details
           </legend>
 
-          <!-- Full Name -->
           <div>
             <label for="full-name" class="block text-sm font-medium text-neutral-600 mb-1.5">
               Full Name <span class="text-red-400">*</span>
@@ -326,7 +554,6 @@
             />
           </div>
 
-          <!-- Email + Phone (2-col) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label for="email" class="block text-sm font-medium text-neutral-600 mb-1.5">
@@ -350,7 +577,6 @@
             </div>
           </div>
 
-          <!-- Year of Study -->
           <div class="max-w-xs">
             <label for="year-of-study" class="block text-sm font-medium text-neutral-600 mb-1.5">
               Year of Study <span class="text-red-400">*</span>
@@ -375,7 +601,6 @@
             Developer Links
           </legend>
 
-          <!-- GitHub -->
           <div>
             <label for="github-url" class="block text-sm font-medium text-neutral-600 mb-1.5">
               GitHub Profile URL
@@ -383,7 +608,6 @@
             </label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
-                <!-- GitHub Icon -->
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               </span>
               <input
@@ -394,7 +618,6 @@
             </div>
           </div>
 
-          <!-- LinkedIn -->
           <div>
             <label for="linkedin-url" class="block text-sm font-medium text-neutral-600 mb-1.5">
               LinkedIn URL
@@ -402,7 +625,6 @@
             </label>
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
-                <!-- LinkedIn Icon -->
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </span>
               <input
@@ -422,10 +644,7 @@
           </legend>
           <p class="text-xs text-neutral-400">Select all that apply — these help us assign you to the right working groups.</p>
 
-          <!-- Chip Grid -->
-          <div id="interests-grid" class="flex flex-wrap gap-3">
-            <!-- Chips will be generated by JavaScript below -->
-          </div>
+          <div id="interests-grid" class="flex flex-wrap gap-3"></div>
           <input type="hidden" id="selected-interests" name="interests" />
         </fieldset>
 
@@ -437,38 +656,33 @@
                 <span class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">04</span>
                 Registration Fee
               </p>
-              <p class="text-xs text-neutral-400 mt-1 ml-8">One-time membership fee – secure payment via Razorpay</p>
+              <p class="text-xs text-neutral-400 mt-1 ml-8">One-time membership fee – pay via UPI (GPay, PhonePe, Paytm)</p>
             </div>
             <div class="ml-8 sm:ml-0">
-              <span class="text-3xl font-bold text-neutral-800">₹99</span>
+              <span class="text-3xl font-bold text-neutral-800">₹1</span>
               <span class="text-sm text-neutral-400 ml-1">/lifetime</span>
             </div>
           </div>
 
-          <!-- Divider -->
           <div class="h-px bg-neutral-100 mb-6"></div>
 
-          <!-- Submit Button -->
           <button
             type="submit" id="btn-submit"
             class="btn-deploy w-full flex items-center justify-center gap-3 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-4 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <!-- Rocket Icon -->
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.84 2.58m0 0a6 6 0 01-7.38-5.84h4.8" />
             </svg>
-            <span id="btn-text">Pay Registration Fee &amp; Deploy</span>
-            <!-- Spinner (hidden by default) -->
+            <span id="btn-text">Pay ₹1 &amp; Deploy Membership</span>
             <svg id="btn-spinner" class="hidden animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
             </svg>
           </button>
 
-          <!-- Security note -->
           <p class="text-center text-[11px] text-neutral-300 mt-4 flex items-center justify-center gap-1.5">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-            Secured by Razorpay · 256-bit SSL encryption
+            Direct UPI Payment · Zero gateway fees · Instant
           </p>
         </div>
 
@@ -489,28 +703,70 @@
       <div class="flex items-center gap-6 text-xs text-neutral-400">
         <span class="font-mono">Innovexa Hub</span>
         <span>·</span>
-        <span class="font-mono">v1.0.0</span>
+        <span class="font-mono">v2.0.0</span>
       </div>
     </div>
   </footer>
 
   <!-- ════════════════════════════════════════════════════════
-       JAVASCRIPT: Validation, Interests, Razorpay
+       JAVASCRIPT: UPI Payment System
        ════════════════════════════════════════════════════════ -->
   <script>
     // ─── Configuration ──────────────────────────────────────
-    /**
-     * ⚠️  IMPORTANT: Replace the placeholder below with your
-     *    actual Razorpay KEY_ID from the Razorpay Dashboard.
-     *    https://dashboard.razorpay.com/app/keys
-     *
-     *    For TEST MODE, use a key that starts with "rzp_test_"
-     *    For LIVE MODE, use a key that starts with "rzp_live_"
-     */
-    const RAZORPAY_KEY_ID = 'V9Q0WavMXP4yh4qKfQ4T3WsF'; // 🔑 Your Razorpay Key
+    const UPI_ID     = 'innovexahub@axl';   // Your UPI ID
+    const UPI_NAME   = 'Innovexa Hub';      // Payee display name
+    const FEE_AMOUNT = 1;                   // Amount in ₹
+    const FEE_DISPLAY = '₹1';
 
-    const REGISTRATION_FEE = 9900; // Amount in PAISE (₹99 = 9900 paise)
-    const CURRENCY = 'INR';
+    // ─── Duplicate Guard (localStorage-based) ───────────────
+    // Stores submitted UTRs locally to prevent duplicate submissions.
+    // For a production system, this should be backed by a database.
+    const STORAGE_KEY = 'innovexa_submitted_utrs';
+
+    function getSubmittedUTRs() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch { return []; }
+    }
+
+    function saveUTR(utr, data) {
+      const utrs = getSubmittedUTRs();
+      utrs.push({ utr, name: data.fullName, email: data.email, timestamp: Date.now() });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(utrs));
+    }
+
+    function isUTRDuplicate(utr) {
+      return getSubmittedUTRs().some(entry => entry.utr === utr);
+    }
+
+    // ─── Current form data holder ───────────────────────────
+    let currentFormData = null;
+
+    // ─── UPI Deep Links ─────────────────────────────────────
+    /**
+     * Generates UPI deep links for various apps.
+     * On mobile, these open the respective payment app directly
+     * with amount and payee pre-filled.
+     */
+    function generateUPILink(app) {
+      const params = new URLSearchParams({
+        pa: UPI_ID,                         // Payee UPI address
+        pn: UPI_NAME,                       // Payee name
+        am: FEE_AMOUNT.toString(),          // Amount
+        cu: 'INR',                          // Currency
+        tn: 'Innovexa Hub Membership Fee',  // Transaction note
+      });
+
+      const upiUrl = `upi://pay?${params.toString()}`;
+
+      // App-specific deep links for mobile
+      switch (app) {
+        case 'gpay':     return `tez://upi/pay?${params.toString()}`;
+        case 'phonepe':  return `phonepe://pay?${params.toString()}`;
+        case 'paytm':    return `paytm://upi/pay?${params.toString()}`;
+        default:         return upiUrl;
+      }
+    }
 
     // ─── Tech Stack Interest Chips ──────────────────────────
     const INTERESTS = [
@@ -530,10 +786,6 @@
 
     const selectedInterests = new Set();
 
-    /**
-     * Renders the interest chips into the grid.
-     * Each chip toggles on/off when clicked.
-     */
     function renderInterests() {
       const grid = document.getElementById('interests-grid');
       grid.innerHTML = '';
@@ -559,7 +811,6 @@
             selectedInterests.add(interest.id);
             chip.classList.add('selected');
           }
-          // Sync hidden input
           document.getElementById('selected-interests').value =
             Array.from(selectedInterests).join(',');
         });
@@ -568,14 +819,9 @@
       });
     }
 
-    // Render chips on page load
     renderInterests();
 
     // ─── Form Validation ────────────────────────────────────
-    /**
-     * Validates required fields and returns collected form data
-     * or null if invalid.
-     */
     function validateForm() {
       const form = document.getElementById('innovexa-registration-form');
       const fullName   = form.fullName.value.trim();
@@ -586,9 +832,8 @@
       const linkedinUrl= form.linkedinUrl.value.trim();
       const interests  = document.getElementById('selected-interests').value;
 
-      // Required field checks
       if (!fullName) { showToast('Please enter your full name.', 'error'); focusField('full-name'); return null; }
-      if (!email || !email.includes('@')) { showToast('Please enter a valid university email.', 'error'); focusField('email'); return null; }
+      if (!email || !email.includes('@')) { showToast('Please enter a valid email.', 'error'); focusField('email'); return null; }
       if (!phone || phone.replace(/\D/g, '').length < 10) { showToast('Please enter a valid phone number.', 'error'); focusField('phone'); return null; }
       if (!year) { showToast('Please select your year of study.', 'error'); focusField('year-of-study'); return null; }
       if (selectedInterests.size === 0) { showToast('Please select at least one tech interest.', 'error'); return null; }
@@ -606,11 +851,6 @@
     }
 
     // ─── Toast Notifications ────────────────────────────────
-    /**
-     * Displays a brief toast notification in the top-right corner.
-     * @param {string} message - Text to display.
-     * @param {'success'|'error'|'info'} type - Style variant.
-     */
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -633,148 +873,190 @@
       `;
 
       container.appendChild(toast);
-
-      // Auto-remove after 4s
       setTimeout(() => {
         if (toast.parentNode) toast.parentNode.removeChild(toast);
       }, 4000);
     }
 
-    // ─── Razorpay Integration ───────────────────────────────
-    /**
-     * Initializes and opens the Razorpay Checkout modal.
-     * Called after form validation passes.
-     *
-     * @param {Object} formData - The validated form data.
-     */
-    function initiateRazorpayPayment(formData) {
-      const btnSubmit = document.getElementById('btn-submit');
-      const btnText   = document.getElementById('btn-text');
-      const btnSpinner= document.getElementById('btn-spinner');
+    // ─── Payment Modal Controls ─────────────────────────────
+    const modal     = document.getElementById('payment-modal');
+    const step1     = document.getElementById('payment-step-1');
+    const step2     = document.getElementById('payment-step-2');
+    const step3     = document.getElementById('payment-step-3');
 
-      // Show loading state
-      btnSubmit.disabled = true;
-      btnText.textContent = 'Initializing Payment...';
-      btnSpinner.classList.remove('hidden');
-
-      /**
-       * Razorpay Checkout Options
-       * ──────────────────────────
-       * Docs: https://razorpay.com/docs/payments/payment-gateway/web-integration/standard/
-       */
-      const options = {
-        key: RAZORPAY_KEY_ID,                             // 🔑 Your Razorpay Key ID
-        amount: REGISTRATION_FEE,                         // Amount in paise
-        currency: CURRENCY,
-        name: 'Innovexa Hub',                             // Merchant / Club name
-        description: 'Membership Registration Fee',
-        image: 'assets/logo.png',                         // Club logo in modal
-
-        // Pre-fill user details from the form
-        prefill: {
-          name:    formData.fullName,
-          email:   formData.email,
-          contact: formData.phone,
-        },
-
-        // Branding
-        theme: {
-          color: '#6366f1',                               // Accent indigo
-        },
-
-        // Additional Notes (visible in Razorpay Dashboard)
-        notes: {
-          year_of_study: formData.year,
-          github:        formData.githubUrl   || 'N/A',
-          linkedin:      formData.linkedinUrl || 'N/A',
-          interests:     formData.interests   || 'N/A',
-        },
-
-        /**
-         * ✅ SUCCESS HANDLER
-         * Called when the payment is successfully completed.
-         * `response` contains:
-         *   - razorpay_payment_id
-         *   - razorpay_order_id  (if using Orders API)
-         *   - razorpay_signature (if using Orders API)
-         */
-        handler: function(response) {
-          console.log('────────────────────────────────────────');
-          console.log('🚀 PAYMENT SUCCESSFUL');
-          console.log('   Payment ID :', response.razorpay_payment_id);
-          console.log('   Operative  :', formData.fullName);
-          console.log('   Email      :', formData.email);
-          console.log('────────────────────────────────────────');
-
-          // Show success toast
-          showToast(`Welcome aboard, Operative ${formData.fullName.split(' ')[0]}! 🚀`, 'success');
-
-          // Replace form with success state
-          showSuccessScreen(formData, response.razorpay_payment_id);
-
-          // Alert for immediate visibility
-          setTimeout(() => {
-            alert(
-              `🎉 Welcome to Innovexa Hub, Operative!\n\n` +
-              `Name: ${formData.fullName}\n` +
-              `Payment ID: ${response.razorpay_payment_id}\n\n` +
-              `You are now part of the Core Network. Initialize your future!`
-            );
-          }, 500);
-        },
-
-        /**
-         * ❌ MODAL DISMISS HANDLER
-         * Called when the user closes the Razorpay modal without paying.
-         */
-        modal: {
-          ondismiss: function() {
-            // Reset button state
-            btnSubmit.disabled = false;
-            btnText.textContent = 'Pay Registration Fee & Deploy';
-            btnSpinner.classList.add('hidden');
-
-            showToast('Payment cancelled. Your form data is still saved.', 'info');
-          }
-        }
-      };
-
-      // Create & open the Razorpay instance
-      try {
-        const rzp = new Razorpay(options);
-
-        // Handle payment failure
-        rzp.on('payment.failed', function(response) {
-          console.error('Payment failed:', response.error);
-          showToast(`Payment failed: ${response.error.description}`, 'error');
-
-          // Reset button
-          btnSubmit.disabled = false;
-          btnText.textContent = 'Pay Registration Fee & Deploy';
-          btnSpinner.classList.add('hidden');
-        });
-
-        rzp.open();
-      } catch (err) {
-        console.error('Razorpay initialization error:', err);
-        showToast('Could not initialize payment. Check your Razorpay Key.', 'error');
-
-        // Reset button
-        btnSubmit.disabled = false;
-        btnText.textContent = 'Pay Registration Fee & Deploy';
-        btnSpinner.classList.add('hidden');
-      }
+    function openPaymentModal() {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      showStep(1);
     }
 
-    // ─── Success Screen ─────────────────────────────────────
+    function closePaymentModal() {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function showStep(num) {
+      step1.classList.toggle('hidden', num !== 1);
+      step2.classList.toggle('hidden', num !== 2);
+      step3.classList.toggle('hidden', num !== 3);
+    }
+
+    // Close modal on backdrop click or close button
+    document.getElementById('modal-backdrop').addEventListener('click', closePaymentModal);
+    document.getElementById('modal-close').addEventListener('click', closePaymentModal);
+
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePaymentModal();
+    });
+
+    // ─── UPI App Button Handlers ────────────────────────────
+    // Set deep links on UPI buttons
+    function setUPILinks() {
+      document.getElementById('btn-gpay').href        = generateUPILink('gpay');
+      document.getElementById('btn-phonepe').href     = generateUPILink('phonepe');
+      document.getElementById('btn-paytm').href       = generateUPILink('paytm');
+      document.getElementById('btn-upi-generic').href = generateUPILink('generic');
+    }
+
+    // "Already Paid" button → go to UTR step
+    document.getElementById('btn-already-paid').addEventListener('click', () => {
+      showStep(2);
+      setTimeout(() => document.getElementById('utr-input').focus(), 200);
+    });
+
+    // "Back" button in step 2
+    document.getElementById('btn-back-to-step1').addEventListener('click', () => {
+      showStep(1);
+    });
+
+    // Copy UPI ID
+    document.getElementById('copy-upi-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(UPI_ID).then(() => {
+        showToast('UPI ID copied!', 'success');
+        document.getElementById('copy-upi-btn').textContent = 'Copied!';
+        setTimeout(() => {
+          document.getElementById('copy-upi-btn').textContent = 'Copy';
+        }, 2000);
+      }).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = UPI_ID; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('UPI ID copied!', 'success');
+      });
+    });
+
+    // After clicking a UPI app button, auto-advance to step 2 after a delay
+    // (user will come back after paying in their UPI app)
+    document.querySelectorAll('#upi-app-grid a').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setTimeout(() => showStep(2), 1500);
+      });
+    });
+
+    // ─── UTR Validation & Verification ──────────────────────
     /**
-     * Replaces the registration form with a beautiful success confirmation.
+     * Validates the UTR format:
+     * - Must be numeric (or alphanumeric for some banks)
+     * - Typically 12 digits, but some banks use 8-22 chars
      */
-    function showSuccessScreen(data, paymentId) {
+    function validateUTR(utr) {
+      const cleaned = utr.trim();
+      if (!cleaned) return { valid: false, error: 'Please enter a Transaction ID.' };
+      if (cleaned.length < 8) return { valid: false, error: 'Transaction ID is too short. It should be at least 8 characters.' };
+      if (cleaned.length > 22) return { valid: false, error: 'Transaction ID is too long. Please check and re-enter.' };
+      if (!/^[a-zA-Z0-9]+$/.test(cleaned)) return { valid: false, error: 'Transaction ID should only contain letters and numbers.' };
+      if (isUTRDuplicate(cleaned)) return { valid: false, error: '⚠️ This Transaction ID has already been submitted. Contact us if this is an error.' };
+      return { valid: true, cleaned };
+    }
+
+    // ─── Verification Animation ─────────────────────────────
+    /**
+     * Plays a terminal-style verification animation
+     * to give the feel of a backend scanning process.
+     */
+    function runVerificationAnimation(utr, formData) {
+      showStep(3);
+
+      const terminalOutput = document.getElementById('terminal-output');
+      const progressBar    = document.getElementById('verify-progress-bar');
+      const statusText     = document.getElementById('verify-status-text');
+      terminalOutput.innerHTML = '';
+
+      const lines = [
+        { text: '$ connecting to payment_node...', color: 'text-emerald-400', delay: 300 },
+        { text: '  → node.status: ONLINE', color: 'text-blue-400', delay: 700 },
+        { text: `$ verify --hash "${utr}"`, color: 'text-emerald-400', delay: 1200 },
+        { text: `  → operative: ${formData.fullName}`, color: 'text-neutral-400', delay: 1800 },
+        { text: `  → amount: ${FEE_DISPLAY}`, color: 'text-neutral-400', delay: 2200 },
+        { text: '  → scanning blockchain...', color: 'text-yellow-400', delay: 2800 },
+        { text: '  → proof_of_work: SUBMITTED', color: 'text-purple-400', delay: 3500 },
+        { text: '  → status: PENDING_VERIFICATION ✓', color: 'text-emerald-400', delay: 4200 },
+      ];
+
+      const progressSteps = [10, 25, 40, 55, 70, 80, 90, 100];
+
+      lines.forEach((line, i) => {
+        setTimeout(() => {
+          const p = document.createElement('p');
+          p.className = `${line.color} terminal-line visible`;
+          p.textContent = line.text;
+          terminalOutput.appendChild(p);
+          terminalOutput.scrollTop = terminalOutput.scrollHeight;
+
+          // Update progress
+          progressBar.style.width = `${progressSteps[i]}%`;
+
+          if (i === lines.length - 1) {
+            // Done — save and show success
+            setTimeout(() => {
+              saveUTR(utr, formData);
+              closePaymentModal();
+              showSuccessScreen(formData, utr);
+              showToast(`Welcome aboard, Operative ${formData.fullName.split(' ')[0]}! 🚀`, 'success');
+            }, 800);
+          }
+        }, line.delay);
+      });
+    }
+
+    // ─── Verify UTR Button Handler ──────────────────────────
+    document.getElementById('btn-verify-utr').addEventListener('click', () => {
+      const utrInput = document.getElementById('utr-input');
+      const utrError = document.getElementById('utr-error');
+      const utr      = utrInput.value.trim();
+
+      // Validate
+      const result = validateUTR(utr);
+      if (!result.valid) {
+        utrError.textContent = result.error;
+        utrError.classList.remove('hidden');
+        utrInput.classList.add('!border-red-400');
+        setTimeout(() => utrInput.classList.remove('!border-red-400'), 2500);
+        return;
+      }
+
+      utrError.classList.add('hidden');
+
+      // Run verification animation
+      runVerificationAnimation(result.cleaned, currentFormData);
+    });
+
+    // Allow Enter key to submit UTR
+    document.getElementById('utr-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('btn-verify-utr').click();
+      }
+    });
+
+    // ─── Success Screen ─────────────────────────────────────
+    function showSuccessScreen(data, transactionId) {
       const main = document.getElementById('registration-form');
       main.innerHTML = `
         <div class="max-w-2xl mx-auto px-6 text-center py-10 animate-fade-in">
-          <!-- Checkmark Circle -->
           <div class="mx-auto w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center mb-8">
             <svg class="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -791,16 +1073,14 @@
           </h2>
 
           <p class="mt-4 text-neutral-500 text-sm max-w-md mx-auto leading-relaxed">
-            You have been successfully registered as a member of Innovexa Hub.
-            Your membership has been deployed to the Core Network.
+            Your registration has been submitted. Your membership will be activated once verified by the Core Network.
           </p>
 
-          <!-- Details Card -->
           <div class="mt-8 bg-white rounded-2xl border border-neutral-200 shadow-card p-6 text-left max-w-md mx-auto">
             <div class="space-y-3 text-sm">
               <div class="flex justify-between">
-                <span class="text-neutral-400 font-mono text-xs">payment.id</span>
-                <span class="font-mono text-xs text-accent-600">${paymentId}</span>
+                <span class="text-neutral-400 font-mono text-xs">transaction.hash</span>
+                <span class="font-mono text-xs text-accent-600">${transactionId}</span>
               </div>
               <div class="h-px bg-neutral-100"></div>
               <div class="flex justify-between">
@@ -815,16 +1095,42 @@
               <div class="h-px bg-neutral-100"></div>
               <div class="flex justify-between">
                 <span class="text-neutral-400 font-mono text-xs">fee.paid</span>
-                <span class="text-xs font-semibold text-emerald-600">₹99 ✓</span>
+                <span class="text-xs font-semibold text-emerald-600">${FEE_DISPLAY} ✓</span>
+              </div>
+              <div class="h-px bg-neutral-100"></div>
+              <div class="flex justify-between">
+                <span class="text-neutral-400 font-mono text-xs">status</span>
+                <span class="text-xs font-semibold text-amber-500">⏳ Pending Verification</span>
               </div>
             </div>
           </div>
 
-          <p class="mt-8 text-xs text-neutral-300 font-mono">
-            A confirmation email will be sent to ${data.email}
+          <div class="mt-6 bg-amber-50 border border-amber-200/60 rounded-xl p-4 max-w-md mx-auto">
+            <p class="text-xs text-amber-700">
+              <strong>Note:</strong> Your membership will be confirmed within 24 hours after payment verification by our team.
+              You will receive a confirmation at <strong>${data.email}</strong>.
+            </p>
+          </div>
+
+          <p class="mt-6 text-xs text-neutral-300 font-mono">
+            Innovexa Hub · Core Network · v2.0.0
           </p>
         </div>
       `;
+
+      // Console log for admin
+      console.log('────────────────────────────────────────');
+      console.log('🚀 NEW REGISTRATION SUBMITTED');
+      console.log('   Name        :', data.fullName);
+      console.log('   Email       :', data.email);
+      console.log('   Phone       :', data.phone);
+      console.log('   Year        :', data.year);
+      console.log('   GitHub      :', data.githubUrl || 'N/A');
+      console.log('   LinkedIn    :', data.linkedinUrl || 'N/A');
+      console.log('   Interests   :', data.interests || 'N/A');
+      console.log('   UTR         :', transactionId);
+      console.log('   Status      : PENDING_VERIFICATION');
+      console.log('────────────────────────────────────────');
     }
 
     // ─── Form Submit Handler ────────────────────────────────
@@ -832,29 +1138,15 @@
       .addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Validate
         const formData = validateForm();
         if (!formData) return;
 
-        // Check if Razorpay key is configured
-        if (RAZORPAY_KEY_ID === 'YOUR_RAZORPAY_KEY_ID_HERE') {
-          showToast('⚠️ Please set your RAZORPAY_KEY_ID in the script.', 'error');
-          console.warn(
-            '╔══════════════════════════════════════════════════╗\n' +
-            '║  ⚠️  RAZORPAY_KEY_ID is not configured!          ║\n' +
-            '║                                                  ║\n' +
-            '║  Open register.html and find the line:           ║\n' +
-            '║  const RAZORPAY_KEY_ID = "YOUR_RAZORPAY_..."     ║\n' +
-            '║                                                  ║\n' +
-            '║  Replace it with your actual key from:           ║\n' +
-            '║  https://dashboard.razorpay.com/app/keys         ║\n' +
-            '╚══════════════════════════════════════════════════╝'
-          );
-          return;
-        }
+        // Store form data for later use in UTR submission
+        currentFormData = formData;
 
-        // Proceed to payment
-        initiateRazorpayPayment(formData);
+        // Set UPI deep links and open payment modal
+        setUPILinks();
+        openPaymentModal();
       });
 
     // ─── Intersection Observer for Scroll Animations ────────
