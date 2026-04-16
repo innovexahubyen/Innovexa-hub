@@ -923,15 +923,16 @@
      * with amount and payee pre-filled.
      */
     function generateUPILink(app) {
-      // Very basic UPI link (highest compatibility)
-      const upiUrl = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${FEE_AMOUNT}&cu=INR`;
+      // Very basic UPI link query string
+      const query = `pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${FEE_AMOUNT}&cu=INR&tn=${encodeURIComponent('Hub Join')}`;
+      const upiUrl = `upi://pay?${query}`;
 
       // App-specific deep links for mobile
       switch (app) {
-        case 'gpay': return `tez://upi/pay?${params.toString()}`;
-        case 'phonepe': return `phonepe://pay?${params.toString()}`;
-        case 'paytm': return `paytm://upi/pay?${params.toString()}`;
-        default: return upiUrl;
+        case 'gpay':    return `tez://upi/pay?${query}`;
+        case 'phonepe': return `phonepe://pay?${query}`;
+        case 'paytm':   return `paytm://upi/pay?${query}`;
+        default:        return upiUrl;
       }
     }
 
