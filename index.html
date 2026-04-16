@@ -791,7 +791,7 @@
               </p>
             </div>
             <div class="ml-8 sm:ml-0">
-              <span class="text-3xl font-bold text-neutral-800">₹1</span>
+              <span class="text-3xl font-bold text-neutral-800">₹10</span>
               <span class="text-sm text-neutral-400 ml-1">/lifetime</span>
             </div>
           </div>
@@ -849,8 +849,8 @@
     // ─── Configuration ──────────────────────────────────────
     const UPI_ID = 'innovexahub@axl';   // Your UPI ID
     const UPI_NAME = 'Innovexa Hub';      // Payee display name
-    const FEE_AMOUNT = 1;                   // Amount in ₹
-    const FEE_DISPLAY = '₹1';
+    const FEE_AMOUNT = 10;                  // Amount in ₹
+    const FEE_DISPLAY = '₹10';
 
     /**
      * 📋 GOOGLE SHEETS INTEGRATION
@@ -903,7 +903,7 @@
         pn: UPI_NAME,                       // Payee name
         am: FEE_AMOUNT.toString(),          // Amount
         cu: 'INR',                          // Currency
-        tn: 'Innovexa Hub Membership Fee',  // Transaction note
+        tn: 'Hub Membership',               // Shortened transaction note (fixes bank errors)
       });
 
       const upiUrl = `upi://pay?${params.toString()}`;
