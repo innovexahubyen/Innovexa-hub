@@ -718,6 +718,21 @@
     const FEE_AMOUNT = 1;                   // Amount in ₹
     const FEE_DISPLAY = '₹1';
 
+    /**
+     * 📋 GOOGLE SHEETS INTEGRATION
+     *
+     * Steps to get your URL:
+     * 1. Go to sheets.google.com → create a new sheet
+     * 2. Add headers in Row 1: Timestamp | Full Name | Email | Phone |
+     *    Year | GitHub | LinkedIn | Interests | UTR | Amount | Status
+     * 3. Go to Extensions → Apps Script
+     * 4. Paste the contents of google-apps-script.js (in your project folder)
+     * 5. Click Deploy → New Deployment → Web App
+     *    Execute as: Me | Who has access: Anyone
+     * 6. Copy the URL and paste it below:
+     */
+    const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // <-- 🔗 PASTE URL HERE
+
     // ─── Duplicate Guard (localStorage-based) ───────────────
     // Stores submitted UTRs locally to prevent duplicate submissions.
     // For a production system, this should be backed by a database.
@@ -972,6 +987,46 @@
       return { valid: true, cleaned };
     }
 
+    // ─── Send Data to Google Sheets ─────────────────────────
+    /**
+     * POSTs all registration data to the Google Apps Script web app.
+     * The script writes a new row in your Google Sheet.
+     * Fails silently so the user always sees the success screen
+     * even if the sheet is temporarily unreachable.
+     */
+    async function sendToGoogleSheets(utr, formData) {
+      if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        console.warn('⚠️  Google Sheets not configured. Paste your Apps Script URL into GOOGLE_SCRIPT_URL.');
+        return;
+      }
+
+      const payload = {
+        fullName:    formData.fullName,
+        email:       formData.email,
+        phone:       formData.phone,
+        year:        formData.year,
+        githubUrl:   formData.githubUrl   || '',
+        linkedinUrl: formData.linkedinUrl || '',
+        interests:   formData.interests   || '',
+        utr:         utr,
+        amount:      FEE_AMOUNT,
+      };
+
+      try {
+        // Google Apps Script requires no-cors mode for cross-origin POSTs
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',   // Required for Apps Script — response will be opaque
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        console.log('✅ Registration data sent to Google Sheets.');
+      } catch (err) {
+        // Don't block the user — log error and continue
+        console.error('❌ Failed to send to Google Sheets:', err);
+      }
+    }
+
     // ─── Verification Animation ─────────────────────────────
     /**
      * Plays a terminal-style verification animation
@@ -1010,9 +1065,10 @@
           progressBar.style.width = `${progressSteps[i]}%`;
 
           if (i === lines.length - 1) {
-            // Done — save and show success
-            setTimeout(() => {
-              saveUTR(utr, formData);
+            // Done — save locally, send to Google Sheets, show success
+            setTimeout(async () => {
+              saveUTR(utr, formData);           // localStorage duplicate guard
+              await sendToGoogleSheets(utr, formData);  // send to Google Sheets
               closePaymentModal();
               showSuccessScreen(formData, utr);
               showToast(`Welcome aboard, Operative ${formData.fullName.split(' ')[0]}! 🚀`, 'success');
