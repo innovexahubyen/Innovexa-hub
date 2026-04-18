@@ -1,0 +1,12 @@
+node_modules/
+.git/
+.github/
+dist/
+src/
+package-lock.json
+package.json
+vite.config.js
+google-apps-script.js
+Code.gs
+README.md
+fix-paths.js

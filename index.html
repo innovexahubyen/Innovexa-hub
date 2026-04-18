@@ -9,7 +9,7 @@
   <title>Join Innovexa Hub — Membership Registration</title>
   <meta name="description"
     content="Register to become an Operative of Innovexa Hub, the premier student-led tech & developer club. Initialize your future today." />
-  <meta name="keywords" content="Innovexa Hub, tech club, developer community, registration" />
+  <meta name="keywords" content="Innovexa Hub, tech club, developer community, registration, membership" />
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -32,16 +32,16 @@
           },
           colors: {
             accent: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              200: '#c7d2fe',
-              300: '#a5b4fc',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
             },
             surface: {
               50: '#fafafa',
@@ -54,13 +54,14 @@
             'soft': '0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04)',
             'card': '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
             'elevated': '0 10px 25px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05)',
-            'glow': '0 0 30px -5px rgba(99, 102, 241, 0.25)',
+            'glow': '0 0 30px -5px rgba(59, 130, 246, 0.3)',
           },
           animation: {
             'float': 'float 6s ease-in-out infinite',
             'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             'slide-up': 'slideUp 0.6s ease-out forwards',
-            'fade-in': 'fadeIn 0.8s ease-out forwards',
+            'fade-in': 'fadeIn 0.5s ease-out forwards',
+            'scale-in': 'scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
           },
           keyframes: {
             float: {
@@ -74,6 +75,10 @@
             fadeIn: {
               '0%': { opacity: '0' },
               '100%': { opacity: '1' },
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
             },
           },
         },
@@ -98,23 +103,48 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    /* ── Tab Indicator Slider ───────────────────────────── */
+    .tab-btn {
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tab-btn.active {
+      color: #2563eb;
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .tab-btn:not(.active):hover {
+      color: #525252;
+    }
+
     /* ── Custom Checkbox Pill Styles ─────────────────────── */
     .interest-chip {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .interest-chip:hover {
-      border-color: #818cf8;
-      background: #eef2ff;
+      border-color: #60a5fa;
+      background: #eff6ff;
       transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.12);
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12);
     }
 
     .interest-chip.selected {
-      border-color: #6366f1;
-      background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-      color: #4338ca;
-      box-shadow: 0 2px 12px rgba(99, 102, 241, 0.18);
+      border-color: #3b82f6;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      color: #1d4ed8;
+      box-shadow: 0 2px 12px rgba(59, 130, 246, 0.18);
     }
 
     .interest-chip.selected .chip-check {
@@ -130,24 +160,24 @@
 
     /* ── Input Focus Ring ────────────────────────────────── */
     .form-input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
     /* ── Hero Gradient Mesh ──────────────────────────────── */
     .hero-mesh {
       background-image:
-        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.06), transparent),
-        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(168, 85, 247, 0.05), transparent),
-        radial-gradient(ellipse 50% 60% at 50% 80%, rgba(59, 130, 246, 0.04), transparent);
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(59, 130, 246, 0.06), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(99, 102, 241, 0.04), transparent),
+        radial-gradient(ellipse 50% 60% at 50% 80%, rgba(37, 99, 235, 0.04), transparent);
     }
 
     /* ── Animated Grid Background ────────────────────────── */
     .grid-bg {
       background-size: 40px 40px;
       background-image:
-        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
     }
 
     /* ── Submit Button Shimmer ───────────────────────────── */
@@ -186,10 +216,6 @@
 
     .stagger-4 {
       animation-delay: 0.4s;
-    }
-
-    .stagger-5 {
-      animation-delay: 0.5s;
     }
 
     /* ── Select dropdown styling ─────────────────────────── */
@@ -247,66 +273,37 @@
       }
     }
 
-    /* ── Payment Modal Overlay ───────────────────────────── */
-    .modal-overlay {
-      animation: fadeIn 0.3s ease-out;
+    /* ── View Transitions ───────────────────────────────── */
+    .view-enter {
+      animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .modal-content {
-      animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    /* ── QR Code Container ──────────────────────────────── */
+    #qr-code-img {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    @keyframes modalSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.97);
+    /* ── Status Card Pulse ──────────────────────────────── */
+    .status-pulse {
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.2);
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    /* ── UPI App Button ──────────────────────────────────── */
-    .upi-app-btn {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .upi-app-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.12);
-    }
-
-    .upi-app-btn:active {
-      transform: translateY(0);
-    }
-
-    /* ── Terminal typing animation ────────────────────────── */
-    .terminal-line {
-      overflow: hidden;
-      white-space: nowrap;
-      animation: typeLine 0.6s steps(40) forwards;
-      opacity: 0;
-    }
-
-    .terminal-line.visible {
-      opacity: 1;
-    }
-
-    @keyframes typeLine {
-      from {
-        width: 0;
-      }
-
-      to {
-        width: 100%;
+      50% {
+        box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
       }
     }
 
     /* ── Verification progress bar ───────────────────────── */
     .verify-progress {
-      background: linear-gradient(90deg, #6366f1, #a855f7, #6366f1);
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
       background-size: 200% 100%;
       animation: shimmerProgress 1.5s ease-in-out infinite;
     }
@@ -320,12 +317,29 @@
         background-position: -200% 0;
       }
     }
-    /* ── QR Code Styling ────────────────────────────────── */
-    #qrcode-container img {
-      margin: 0 auto;
-      border: 8px solid white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    /* ── Loading dots animation ──────────────────────────── */
+    .loading-dots::after {
+      content: '';
+      animation: dots 1.5s steps(4) infinite;
+    }
+
+    @keyframes dots {
+      0% {
+        content: '';
+      }
+
+      25% {
+        content: '.';
+      }
+
+      50% {
+        content: '..';
+      }
+
+      75% {
+        content: '...';
+      }
     }
   </style>
 </head>
@@ -336,179 +350,6 @@
        TOAST CONTAINER
        ════════════════════════════════════════════════════════ -->
   <div id="toast-container" class="fixed top-6 right-6 z-[60] flex flex-col gap-3"></div>
-
-  <!-- ════════════════════════════════════════════════════════
-       PAYMENT MODAL (hidden by default)
-       ════════════════════════════════════════════════════════ -->
-  <div id="payment-modal" class="hidden fixed inset-0 z-50">
-    <!-- Backdrop -->
-    <div class="modal-overlay absolute inset-0 bg-black/40 backdrop-blur-sm" id="modal-backdrop"></div>
-
-    <!-- Modal Content -->
-    <div class="modal-content relative z-10 flex items-center justify-center min-h-screen p-4">
-      <div class="bg-white rounded-2xl border border-neutral-200 shadow-elevated w-full max-w-md overflow-hidden">
-
-        <!-- Modal Header -->
-        <div class="bg-gradient-to-r from-accent-500 to-purple-500 px-6 py-5 text-white">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="font-mono text-xs text-white/60 uppercase tracking-wider">Payment Node</p>
-              <h3 class="text-lg font-bold mt-0.5">Complete Payment</h3>
-            </div>
-            <button id="modal-close"
-              class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          <div class="mt-3 flex items-baseline gap-2">
-            <span class="text-3xl font-bold">₹100</span>
-            <span class="text-sm text-white/60">Registration Fee</span>
-          </div>
-        </div>
-
-        <!-- STEP 1: Scan Static QR (shown initially) -->
-        <div id="payment-step-1" class="p-6">
-          <p class="text-sm text-neutral-500 mb-4 text-center">Scan the QR code below using any UPI App to pay the registration fee:</p>
-
-          <!-- Static QR Code -->
-          <div class="flex flex-col items-center justify-center bg-surface-50 p-6 rounded-xl border border-neutral-100 mb-5">
-            <img src="assets/qr.png" alt="UPI QR Code" class="w-48 h-48 rounded-xl shadow-soft border-4 border-white mb-3" />
-            <p class="text-[10px] text-neutral-400 font-medium tracking-wide">ANY UPI APP SUPPORTED</p>
-          </div>
-
-          <!-- Divider -->
-          <div class="flex items-center gap-3 mb-5">
-            <div class="h-px bg-neutral-100 flex-1"></div>
-            <span class="text-[10px] font-mono text-neutral-300 uppercase tracking-wider">Pay to</span>
-            <div class="h-px bg-neutral-100 flex-1"></div>
-          </div>
-
-          <!-- UPI ID display -->
-          <div class="bg-surface-50 rounded-xl border border-neutral-200/60 p-4 flex items-center justify-between">
-            <div>
-              <p class="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">UPI ID</p>
-              <p class="text-sm font-mono font-semibold text-neutral-700 mt-0.5" id="display-upi-id">9445253099@sbi</p>
-            </div>
-            <button id="copy-upi-btn"
-              class="text-xs font-medium text-accent-600 hover:text-accent-700 bg-accent-50 hover:bg-accent-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
-              Copy
-            </button>
-          </div>
-
-          <!-- Already Paid? -->
-          <button id="btn-already-paid"
-            class="w-full mt-5 py-3 rounded-xl border-2 border-dashed border-neutral-200 hover:border-accent-300 hover:bg-accent-50/30 text-sm font-medium text-neutral-500 hover:text-accent-600 transition-all cursor-pointer flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            I've already paid → Enter Transaction ID
-          </button>
-        </div>
-
-        <!-- STEP 2: Enter UTR / Transaction ID (hidden initially) -->
-        <div id="payment-step-2" class="hidden p-6">
-          <button id="btn-back-to-step1"
-            class="flex items-center gap-1 text-xs text-neutral-400 hover:text-neutral-600 mb-4 cursor-pointer transition-colors">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </button>
-
-          <!-- Terminal-style verification intro -->
-          <div class="bg-neutral-900 rounded-xl p-4 mb-5 font-mono text-xs">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="w-2.5 h-2.5 rounded-full bg-red-400"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-              <span class="ml-2 text-neutral-500">proof_of_work.sh</span>
-            </div>
-            <p class="text-emerald-400">$ awaiting transaction_hash...</p>
-            <p class="text-neutral-500">Enter the 12-digit UTR number</p>
-            <p class="text-neutral-500">from your payment app's receipt.</p>
-          </div>
-
-          <!-- UTR Input -->
-          <div class="mb-4">
-            <label for="utr-input" class="block text-sm font-medium text-neutral-600 mb-1.5">
-              UTR / Transaction ID <span class="text-red-400">*</span>
-            </label>
-            <input type="text" id="utr-input" maxlength="22" required placeholder="e.g. 412345678901"
-              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm font-mono placeholder:text-neutral-300 outline-none transition-all duration-200 tracking-wider" />
-            <p id="utr-error" class="hidden text-xs text-red-500 mt-1.5"></p>
-            <p class="text-[10px] text-neutral-400 mt-1.5">
-              Find this in your payment app → Transaction History → Payment Details
-            </p>
-          </div>
-
-          <!-- Where to find UTR -->
-          <details class="mb-5 group">
-            <summary
-              class="text-xs text-accent-600 cursor-pointer hover:text-accent-700 font-medium flex items-center gap-1">
-              <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor"
-                stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-              Where do I find the UTR number?
-            </summary>
-            <div
-              class="mt-2 text-xs text-neutral-500 bg-surface-50 rounded-lg p-3 border border-neutral-100 space-y-1.5">
-              <p><strong class="text-neutral-600">GPay:</strong> Activity → Payment → "UPI transaction ID"</p>
-              <p><strong class="text-neutral-600">PhonePe:</strong> History → Transaction → "UTR"</p>
-              <p><strong class="text-neutral-600">Paytm:</strong> Passbook → Transaction → "Reference No"</p>
-              <p class="text-neutral-400 mt-1">It's usually a 12-digit number starting with digits.</p>
-            </div>
-          </details>
-
-          <!-- Submit UTR -->
-          <button id="btn-verify-utr"
-            class="btn-deploy w-full flex items-center justify-center gap-2 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-3.5 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-            <span id="verify-btn-text">Submit Proof of Work</span>
-            <svg id="verify-spinner" class="hidden animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-            </svg>
-          </button>
-        </div>
-
-        <!-- STEP 3: Verification Animation (hidden initially) -->
-        <div id="payment-step-3" class="hidden p-6">
-          <div class="text-center py-4">
-            <!-- Scanning animation -->
-            <div
-              class="mx-auto w-16 h-16 rounded-full bg-accent-50 border-2 border-accent-200 flex items-center justify-center mb-5 animate-pulse-slow">
-              <svg class="w-8 h-8 text-accent-500" fill="none" stroke="currentColor" stroke-width="1.5"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-            </div>
-
-            <!-- Terminal output -->
-            <div class="bg-neutral-900 rounded-xl p-4 mb-5 font-mono text-xs text-left max-w-xs mx-auto">
-              <div id="terminal-output" class="space-y-1">
-                <!-- Lines added dynamically -->
-              </div>
-            </div>
-
-            <!-- Progress bar -->
-            <div class="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-              <div id="verify-progress-bar" class="verify-progress h-full rounded-full transition-all duration-500"
-                style="width: 0%"></div>
-            </div>
-            <p class="text-xs text-neutral-400 mt-3 font-mono" id="verify-status-text">Scanning payment node...</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
 
   <!-- ════════════════════════════════════════════════════════
        NAVIGATION BAR
@@ -527,10 +368,6 @@
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           registration.open
         </span>
-        <a href="#registration-form" class="text-sm font-medium text-accent-600 hover:text-accent-700 transition-colors"
-          id="nav-register-link">
-          Register →
-        </a>
       </div>
     </div>
   </nav>
@@ -540,7 +377,7 @@
        ════════════════════════════════════════════════════════ -->
   <header class="relative pt-16 hero-mesh grid-bg overflow-hidden">
     <div class="absolute top-24 left-10 w-72 h-72 bg-accent-500/5 rounded-full blur-3xl animate-float"></div>
-    <div class="absolute bottom-10 right-10 w-56 h-56 bg-purple-500/5 rounded-full blur-3xl animate-float"
+    <div class="absolute bottom-10 right-10 w-56 h-56 bg-indigo-500/5 rounded-full blur-3xl animate-float"
       style="animation-delay: 2s;"></div>
 
     <div class="relative max-w-6xl mx-auto px-6 py-20 md:py-28 flex flex-col items-center text-center">
@@ -554,7 +391,7 @@
       <h1
         class="animate-slide-up text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-4xl">
         Initialize Your
-        <span class="bg-gradient-to-r from-accent-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+        <span class="bg-gradient-to-r from-accent-500 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
           Future.
         </span>
         <br />
@@ -568,7 +405,7 @@
         Build projects, attend workshops, and ship code with your cohort.
       </p>
 
-      <a href="#registration-form" id="hero-cta"
+      <a href="#main-section" id="hero-cta"
         class="animate-slide-up stagger-3 mt-10 inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm px-7 py-3.5 rounded-full shadow-glow hover:shadow-lg transition-all duration-300 group">
         <span>Begin Registration</span>
         <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor"
@@ -579,7 +416,7 @@
 
       <div class="animate-slide-up stagger-4 mt-14 grid grid-cols-3 gap-8 md:gap-16">
         <div class="text-center">
-          <p class="text-2xl md:text-3xl font-bold text-neutral-800">100+</p>
+          <p class="text-2xl md:text-3xl font-bold text-neutral-800" id="member-count">--</p>
           <p class="text-xs font-mono text-neutral-400 mt-1">operatives</p>
         </div>
         <div class="text-center">
@@ -597,173 +434,370 @@
   </header>
 
   <!-- ════════════════════════════════════════════════════════
-       REGISTRATION FORM SECTION
+       MAIN TABBED SECTION
        ════════════════════════════════════════════════════════ -->
-  <main class="relative py-16 md:py-24 bg-surface-50 grid-bg" id="registration-form">
+  <main class="relative py-16 md:py-24 bg-surface-50 grid-bg" id="main-section">
     <div class="max-w-3xl mx-auto px-6">
 
-      <div class="text-center mb-12">
-        <span
-          class="inline-block font-mono text-xs text-accent-500 bg-accent-50 border border-accent-200/60 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
-          &gt;_ new Operative()
-        </span>
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Membership Registration
-        </h2>
-        <p class="mt-3 text-neutral-500 text-sm max-w-md mx-auto">
-          Complete the fields below, select your tech stack, and deploy your membership.
-        </p>
+      <!-- ── Tab Navigation ──────────────────────────────── -->
+      <div class="flex items-center justify-center mb-12">
+        <div class="inline-flex bg-white border border-neutral-200 rounded-2xl p-1.5 shadow-soft">
+          <button type="button" id="tab-register"
+            class="tab-btn active flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-accent-600 cursor-pointer transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+            Register
+          </button>
+          <button type="button" id="tab-status"
+            class="tab-btn flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-neutral-400 cursor-pointer transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            Check Status
+          </button>
+        </div>
       </div>
 
-      <form id="innovexa-registration-form" class="space-y-10" novalidate>
+      <!-- ════════════════════════════════════════════════════
+           VIEW 1: REGISTER
+           ════════════════════════════════════════════════════ -->
+      <div id="view-register" class="view-enter">
 
-        <!-- ── SECTION 1: Personal Details ────────────────── -->
-        <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-6">
-          <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
-            <span
-              class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">01</span>
-            Personal Details
-          </legend>
+        <div class="text-center mb-12">
+          <span
+            class="inline-block font-mono text-xs text-accent-600 bg-accent-50 border border-accent-200/60 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
+            &gt;_ new Operative()
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+            Membership Registration
+          </h2>
+          <p class="mt-3 text-neutral-500 text-sm max-w-md mx-auto">
+            Complete the fields below, select your tech stack, and deploy your membership.
+          </p>
+        </div>
 
-          <div>
-            <label for="full-name" class="block text-sm font-medium text-neutral-600 mb-1.5">
-              Full Name <span class="text-red-400">*</span>
-            </label>
-            <input type="text" id="full-name" name="fullName" required autocomplete="name" placeholder="e.g. Jai Akash"
-              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
-          </div>
+        <!-- ── REGISTRATION FORM ──────────────────────────── -->
+        <form id="innovexa-registration-form" class="space-y-10" novalidate>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <!-- SECTION 1: Personal Details -->
+          <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-6">
+            <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
+              <span
+                class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">01</span>
+              Personal Details
+            </legend>
+
             <div>
-              <label for="email" class="block text-sm font-medium text-neutral-600 mb-1.5">
-                University Email <span class="text-red-400">*</span>
+              <label for="full-name" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                Full Name <span class="text-red-400">*</span>
               </label>
-              <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com"
+              <input type="text" id="full-name" name="fullName" required autocomplete="name"
+                placeholder="e.g. Rahul Sharma"
                 class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
             </div>
-            <div>
-              <label for="phone" class="block text-sm font-medium text-neutral-600 mb-1.5">
-                Phone Number <span class="text-red-400">*</span>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="email" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                  Email <span class="text-red-400">*</span>
+                </label>
+                <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com"
+                  class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                  Phone Number <span class="text-red-400">*</span>
+                </label>
+                <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="+91 98765 43210"
+                  class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
+              </div>
+            </div>
+
+            <div class="max-w-xs">
+              <label for="year-of-study" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                Year of Study <span class="text-red-400">*</span>
               </label>
-              <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="+91 98765 43210"
-                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
+              <select id="year-of-study" name="yearOfStudy" required
+                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200 cursor-pointer">
+                <option value="" disabled selected>Select year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
             </div>
-          </div>
 
-          <div class="max-w-xs">
-            <label for="year-of-study" class="block text-sm font-medium text-neutral-600 mb-1.5">
-              Year of Study <span class="text-red-400">*</span>
-            </label>
-            <select id="year-of-study" name="yearOfStudy" required
-              class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200 cursor-pointer">
-              <option value="" disabled selected>Select year</option>
-              <option value="1">1st Year</option>
-              <option value="2">2nd Year</option>
-              <option value="3">3rd Year</option>
-              <option value="4">4th Year</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <!-- ── SECTION 2: Developer Links ─────────────────── -->
-        <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-6">
-          <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
-            <span
-              class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">02</span>
-            Developer Links
-          </legend>
-
-          <div>
-            <label for="github-url" class="block text-sm font-medium text-neutral-600 mb-1.5">
-              GitHub Profile URL
-              <span class="text-neutral-400 font-normal">(encouraged)</span>
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                </svg>
-              </span>
-              <input type="url" id="github-url" name="githubUrl" placeholder="https://github.com/yourusername"
-                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="branch" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                  Branch / Department <span class="text-red-400">*</span>
+                </label>
+                <select id="branch" name="branch" required
+                  class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200 cursor-pointer">
+                  <option value="" disabled selected>Select branch</option>
+                  <option value="B.Tech CSE">B.Tech CSE</option>
+                  <option value="B.Tech AI/ML">B.Tech AI/ML</option>
+                  <option value="B.Tech ECE">B.Tech ECE</option>
+                  <option value="B.Tech ME">B.Tech ME</option>
+                  <option value="BCA">BCA</option>
+                  <option value="MCA">MCA</option>
+                  <option value="BBA">BBA</option>
+                  <option value="MBA">MBA</option>
+                  <option value="B.Sc">B.Sc</option>
+                  <option value="M.Sc">M.Sc</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label for="skill-level" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                  Tech Skill Level <span class="text-red-400">*</span>
+                </label>
+                <select id="skill-level" name="skillLevel" required
+                  class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200 cursor-pointer">
+                  <option value="" disabled selected>Select level</option>
+                  <option value="Beginner">🌱 Beginner</option>
+                  <option value="Intermediate">⚡ Intermediate</option>
+                  <option value="Advanced">🚀 Advanced</option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          <div>
-            <label for="linkedin-url" class="block text-sm font-medium text-neutral-600 mb-1.5">
-              LinkedIn URL
-              <span class="text-neutral-400 font-normal">(optional)</span>
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-              </span>
-              <input type="url" id="linkedin-url" name="linkedinUrl" placeholder="https://linkedin.com/in/yourprofile"
-                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
+            <div class="max-w-xs">
+              <label for="dob" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                Date of Birth <span class="text-red-400">*</span>
+              </label>
+              <input type="date" id="dob" name="dob" required
+                class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm text-neutral-700 outline-none transition-all duration-200" />
             </div>
-          </div>
-        </fieldset>
+          </fieldset>
 
-        <!-- ── SECTION 3: Tech Stack Interests ────────────── -->
-        <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-5">
-          <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
-            <span
-              class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">03</span>
-            Tech Stack Interests
-          </legend>
-          <p class="text-xs text-neutral-400">Select all that apply — these help us assign you to the right working
-            groups.</p>
+          <!-- SECTION 2: Tech Stack Interests -->
+          <fieldset class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-5">
+            <legend class="flex items-center gap-2 text-sm font-semibold text-neutral-700 -ml-1">
+              <span
+                class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">02</span>
+              Tech Stack Interests
+            </legend>
+            <p class="text-xs text-neutral-400">Select all that apply — these help us assign you to the right working
+              groups.</p>
 
-          <div id="interests-grid" class="flex flex-wrap gap-3"></div>
-          <input type="hidden" id="selected-interests" name="interests" />
-        </fieldset>
+            <div id="interests-grid" class="flex flex-wrap gap-3"></div>
+            <input type="hidden" id="selected-interests" name="interests" />
+          </fieldset>
 
-        <!-- ── SECTION 4: Payment & Submit ────────────────── -->
-        <div class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <div>
-              <p class="text-sm font-semibold text-neutral-700 flex items-center gap-2">
-                <span
-                  class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">04</span>
-                Registration Fee
-              </p>
-              <p class="text-xs text-neutral-400 mt-1 ml-8">One-time membership fee – scan QR using any UPI app</p>
+          <!-- SECTION 3: Proceed to Pay -->
+          <div class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <p class="text-sm font-semibold text-neutral-700 flex items-center gap-2">
+                  <span
+                    class="flex items-center justify-center w-6 h-6 rounded-lg bg-accent-50 text-accent-600 text-xs font-mono font-bold">03</span>
+                  Registration Fee
+                </p>
+                <p class="text-xs text-neutral-400 mt-1 ml-8">One-time membership fee via UPI</p>
+              </div>
+              <div class="ml-8 sm:ml-0">
+                <span class="text-3xl font-bold text-neutral-800">₹1</span>
+                <span class="text-sm text-neutral-400 ml-1">/Year</span>
+              </div>
             </div>
-            <div class="ml-8 sm:ml-0">
-              <span class="text-3xl font-bold text-neutral-800">₹100</span>
-              <span class="text-sm text-neutral-400 ml-1">/lifetime</span>
-            </div>
+
+            <div class="h-px bg-neutral-100 mb-6"></div>
+
+            <button type="submit" id="btn-proceed-pay"
+              class="btn-deploy w-full flex items-center justify-center gap-3 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm py-4 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span>Proceed to Pay ₹1</span>
+            </button>
+
+            <p class="text-center text-[11px] text-neutral-300 mt-4 flex items-center justify-center gap-1.5">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Direct UPI Payment · Zero gateway fees · Instant
+            </p>
           </div>
+        </form>
 
-          <div class="h-px bg-neutral-100 mb-6"></div>
+        <!-- ═══════════════════════════════════════════════════
+             PAYMENT UI (hidden initially, shown after form validates)
+             ═══════════════════════════════════════════════════ -->
+        <div id="payment-section" class="hidden space-y-8 view-enter">
 
-          <button type="submit" id="btn-submit"
-            class="btn-deploy w-full flex items-center justify-center gap-3 bg-gradient-to-r from-accent-500 to-purple-500 hover:from-accent-600 hover:to-purple-600 text-white font-semibold text-sm py-4 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.84 2.58m0 0a6 6 0 01-7.38-5.84h4.8" />
+          <!-- Back to Form -->
+          <button type="button" id="btn-back-to-form"
+            class="flex items-center gap-2 text-sm text-neutral-400 hover:text-neutral-600 cursor-pointer transition-colors group">
+            <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor"
+              stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
-            <span id="btn-text">Pay ₹100 &amp; Deploy Membership</span>
-            <svg id="btn-spinner" class="hidden animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+            Back to form
+          </button>
+
+          <!-- QR Code Payment Card -->
+          <div class="bg-white rounded-2xl border border-neutral-200/70 shadow-card overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-accent-500 to-blue-600 px-6 py-5 text-white">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="font-mono text-xs text-white/60 uppercase tracking-wider">Payment Gateway</p>
+                  <h3 class="text-lg font-bold mt-0.5">Complete Payment</h3>
+                </div>
+                <div class="text-right">
+                  <p class="text-3xl font-bold">₹1</p>
+                  <p class="text-xs text-white/60">Registration Fee</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+              <!-- Dynamic QR Code -->
+              <div class="flex flex-col items-center">
+                <p class="text-sm text-neutral-500 mb-4">Scan the QR code with any UPI app to pay:</p>
+                <div class="bg-surface-50 p-5 rounded-2xl border border-neutral-100 inline-block">
+                  <img id="qr-code-img" alt="UPI QR Code" class="w-52 h-52" />
+                </div>
+                <p class="text-[10px] text-neutral-400 font-medium tracking-wide mt-3 uppercase">Works with GPay ·
+                  PhonePe · Paytm · Any UPI App</p>
+              </div>
+
+
+              <!-- UPI ID display -->
+              <div class="bg-surface-50 rounded-xl border border-neutral-200/60 p-4 flex items-center justify-between">
+                <div>
+                  <p class="text-[10px] font-mono text-neutral-400 uppercase tracking-wider">UPI ID</p>
+                  <p class="text-sm font-mono font-semibold text-neutral-700 mt-0.5" id="display-upi-id"></p>
+                </div>
+                <button type="button" id="copy-upi-btn"
+                  class="text-xs font-medium text-accent-600 hover:text-accent-700 bg-accent-50 hover:bg-accent-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">
+                  Copy
+                </button>
+              </div>
+
+              <!-- Divider -->
+              <div class="flex items-center gap-3">
+                <div class="h-px bg-neutral-100 flex-1"></div>
+                <span class="text-[10px] font-mono text-neutral-300 uppercase tracking-wider">after payment</span>
+                <div class="h-px bg-neutral-100 flex-1"></div>
+              </div>
+
+              <!-- UTR Input Section -->
+              <div>
+                <label for="utr-input" class="block text-sm font-medium text-neutral-600 mb-1.5">
+                  Enter 12-Digit UTR / Transaction ID <span class="text-red-400">*</span>
+                </label>
+                <input type="text" id="utr-input" maxlength="22" required placeholder="e.g. 412345678901"
+                  class="form-input w-full px-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm font-mono placeholder:text-neutral-300 outline-none transition-all duration-200 tracking-wider" />
+                <p id="utr-error" class="hidden text-xs text-red-500 mt-1.5"></p>
+
+                <!-- Where to find UTR -->
+                <details class="mt-3 group">
+                  <summary
+                    class="text-xs text-accent-600 cursor-pointer hover:text-accent-700 font-medium flex items-center gap-1">
+                    <svg class="w-3 h-3 transition-transform group-open:rotate-90" fill="none" stroke="currentColor"
+                      stroke-width="2.5" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                    Where do I find the UTR number?
+                  </summary>
+                  <div
+                    class="mt-2 text-xs text-neutral-500 bg-surface-50 rounded-lg p-3 border border-neutral-100 space-y-1.5">
+                    <p><strong class="text-neutral-600">GPay:</strong> Activity → Payment → "UPI transaction ID"</p>
+                    <p><strong class="text-neutral-600">PhonePe:</strong> History → Transaction → "UTR"</p>
+                    <p><strong class="text-neutral-600">Paytm:</strong> Passbook → Transaction → "Reference No"</p>
+                    <p class="text-neutral-400 mt-1">It's usually a 12-digit number starting with digits.</p>
+                  </div>
+                </details>
+              </div>
+
+              <!-- Submit Registration Button -->
+              <button type="button" id="btn-submit-registration"
+                class="btn-deploy w-full flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm py-3.5 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span id="submit-btn-text">Submit Registration</span>
+                <svg id="submit-spinner" class="hidden animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z">
+                  </path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════
+             SUCCESS SCREEN (hidden initially)
+             ═══════════════════════════════════════════════════ -->
+        <div id="success-section" class="hidden view-enter"></div>
+
+      </div>
+
+      <!-- ════════════════════════════════════════════════════
+           VIEW 2: CHECK STATUS
+           ════════════════════════════════════════════════════ -->
+      <div id="view-status" class="hidden view-enter">
+
+        <div class="text-center mb-12">
+          <span
+            class="inline-block font-mono text-xs text-accent-600 bg-accent-50 border border-accent-200/60 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
+            &gt;_ status.query()
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+            Check Registration Status
+          </h2>
+          <p class="mt-3 text-neutral-500 text-sm max-w-md mx-auto">
+            Enter your registered email or UTR to check your membership status.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-neutral-200/70 shadow-card p-6 md:p-8 space-y-6">
+
+          <!-- Search Input -->
+          <div>
+            <label for="status-query" class="block text-sm font-medium text-neutral-600 mb-1.5">
+              Email or UTR Number
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-neutral-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <input type="text" id="status-query" placeholder="your@email.com or 412345678901"
+                class="form-input w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 bg-surface-50 text-sm placeholder:text-neutral-300 outline-none transition-all duration-200" />
+            </div>
+          </div>
+
+          <!-- Check Status Button -->
+          <button type="button" id="btn-check-status"
+            class="btn-deploy w-full flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white font-semibold text-sm py-3.5 rounded-xl shadow-glow hover:shadow-lg transition-all duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <span id="status-btn-text">Check Status</span>
+            <svg id="status-spinner" class="hidden animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
             </svg>
           </button>
 
-          <p class="text-center text-[11px] text-neutral-300 mt-4 flex items-center justify-center gap-1.5">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-            Direct UPI Payment · Zero gateway fees · Instant
-          </p>
+          <!-- Status Result Display -->
+          <div id="status-result" class="hidden"></div>
         </div>
+      </div>
 
-      </form>
     </div>
   </main>
 
@@ -780,61 +814,104 @@
       <div class="flex items-center gap-6 text-xs text-neutral-400">
         <span class="font-mono">Innovexa Hub</span>
         <span>·</span>
-        <span class="font-mono">v2.0.0</span>
+        <span class="font-mono">v3.0.0</span>
       </div>
     </div>
   </footer>
 
   <!-- ════════════════════════════════════════════════════════
-       JAVASCRIPT: UPI Payment System
+       JAVASCRIPT
        ════════════════════════════════════════════════════════ -->
   <script>
-    // ─── Configuration ──────────────────────────────────────
-    const UPI_ID = '9445253099@sbi';    // Your New UPI ID
-    const UPI_NAME = 'Innovexa Hub';    // Payee display name
-    const FEE_AMOUNT = 100;             // Amount in ₹
-    const FEE_DISPLAY = '₹100';
+    // ═══════════════════════════════════════════════════════════
+    //  CONFIGURATION
+    // ═══════════════════════════════════════════════════════════
+
+    const UPI_ID = 'gpay-12200845070@okbizaxis';       // ← Your UPI ID
+    const UPI_NAME = 'Jaiakash S';       // ← Payee display name
+    const FEE = 1;                  // ← Amount in ₹
+    const FEE_LABEL = '₹1';
 
     /**
-     * 📋 GOOGLE SHEETS INTEGRATION
+     * 📋 GOOGLE APPS SCRIPT WEB APP URL
      *
      * Steps to get your URL:
      * 1. Go to sheets.google.com → create a new sheet
-     * 2. Add headers in Row 1: Timestamp | Full Name | Email | Phone |
-     *    Year | GitHub | LinkedIn | Interests | UTR | Amount | Status
+     * 2. Add headers in Row 1: Timestamp | Name | Email | Phone | Year | Interests | UTR | Status
      * 3. Go to Extensions → Apps Script
-     * 4. Paste the contents of google-apps-script.js (in your project folder)
+     * 4. Paste the contents of Code.gs
      * 5. Click Deploy → New Deployment → Web App
      *    Execute as: Me | Who has access: Anyone
      * 6. Copy the URL and paste it below:
      */
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9OofGjq1F43dnLhsogSZyyHpM1DnDWNb4SQs0rYKx5RVmrTS0QM2UELNnCjsloCd88A/exec'; // <-- 🔗 PASTE URL HERE
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwdaI62hVPl6wSqUjPbEKtGSo9dptgcoFXM7WTnsH4QYssfUbTiSCsAvC2oPheYAK-E-Q/exec';  // ← 🔗 Paste URL here
 
-    // ─── Duplicate Guard (localStorage-based) ───────────────
-    // Stores submitted UTRs locally to prevent duplicate submissions.
-    // For a production system, this should be backed by a database.
-    const STORAGE_KEY = 'innovexa_submitted_utrs';
+    // ═══════════════════════════════════════════════════════════
+    //  FETCH LIVE MEMBER COUNT FROM GOOGLE SHEETS
+    // ═══════════════════════════════════════════════════════════
 
-    function getSubmittedUTRs() {
+    async function fetchMemberCount() {
+      if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        document.getElementById('member-count').textContent = '0';
+        return;
+      }
       try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      } catch { return []; }
+        const response = await fetch(`${SCRIPT_URL}?action=count`, { method: 'GET', redirect: 'follow' });
+        const data = await response.json();
+        if (data.success && typeof data.count === 'number') {
+          document.getElementById('member-count').textContent = data.count;
+        } else {
+          document.getElementById('member-count').textContent = '0';
+        }
+      } catch (err) {
+        console.error('Failed to fetch member count:', err);
+        document.getElementById('member-count').textContent = '0';
+      }
     }
 
-    function saveUTR(utr, data) {
-      const utrs = getSubmittedUTRs();
-      utrs.push({ utr, name: data.fullName, email: data.email, timestamp: Date.now() });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(utrs));
+    // Fetch count on page load
+    fetchMemberCount();
+
+    // ═══════════════════════════════════════════════════════════
+    //  UPI QR CODE & DEEP LINK
+    // ═══════════════════════════════════════════════════════════
+
+    // Use static QR code image
+    document.getElementById('qr-code-img').src = 'assets/qr.png';
+
+    // Display UPI ID
+    document.getElementById('display-upi-id').textContent = UPI_ID;
+
+    // ═══════════════════════════════════════════════════════════
+    //  TAB SWITCHING
+    // ═══════════════════════════════════════════════════════════
+
+    const tabRegister = document.getElementById('tab-register');
+    const tabStatus = document.getElementById('tab-status');
+    const viewRegister = document.getElementById('view-register');
+    const viewStatus = document.getElementById('view-status');
+
+    function switchTab(tab) {
+      if (tab === 'register') {
+        tabRegister.classList.add('active');
+        tabStatus.classList.remove('active');
+        viewRegister.classList.remove('hidden');
+        viewStatus.classList.add('hidden');
+      } else {
+        tabStatus.classList.add('active');
+        tabRegister.classList.remove('active');
+        viewStatus.classList.remove('hidden');
+        viewRegister.classList.add('hidden');
+      }
     }
 
-    function isUTRDuplicate(utr) {
-      return getSubmittedUTRs().some(entry => entry.utr === utr);
-    }
+    tabRegister.addEventListener('click', () => switchTab('register'));
+    tabStatus.addEventListener('click', () => switchTab('status'));
 
-    // ─── Current form data holder ───────────────────────────
-    let currentFormData = null;
+    // ═══════════════════════════════════════════════════════════
+    //  TECH STACK INTEREST CHIPS
+    // ═══════════════════════════════════════════════════════════
 
-    // ─── Tech Stack Interest Chips ──────────────────────────
     const INTERESTS = [
       { id: 'aiml', label: 'AI / ML', icon: '🤖' },
       { id: 'webdev', label: 'Web Dev', icon: '🌐' },
@@ -877,8 +954,7 @@
             selectedInterests.add(interest.id);
             chip.classList.add('selected');
           }
-          document.getElementById('selected-interests').value =
-            Array.from(selectedInterests).join(',');
+          document.getElementById('selected-interests').value = Array.from(selectedInterests).join(', ');
         });
 
         grid.appendChild(chip);
@@ -887,24 +963,31 @@
 
     renderInterests();
 
-    // ─── Form Validation ────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════
+    //  FORM VALIDATION
+    // ═══════════════════════════════════════════════════════════
+
     function validateForm() {
       const form = document.getElementById('innovexa-registration-form');
       const fullName = form.fullName.value.trim();
       const email = form.email.value.trim();
       const phone = form.phone.value.trim();
       const year = form.yearOfStudy.value;
-      const githubUrl = form.githubUrl.value.trim();
-      const linkedinUrl = form.linkedinUrl.value.trim();
+      const branch = form.branch.value;
+      const skillLevel = form.skillLevel.value;
+      const dob = form.dob.value;
       const interests = document.getElementById('selected-interests').value;
 
       if (!fullName) { showToast('Please enter your full name.', 'error'); focusField('full-name'); return null; }
       if (!email || !email.includes('@')) { showToast('Please enter a valid email.', 'error'); focusField('email'); return null; }
       if (!phone || phone.replace(/\D/g, '').length < 10) { showToast('Please enter a valid phone number.', 'error'); focusField('phone'); return null; }
       if (!year) { showToast('Please select your year of study.', 'error'); focusField('year-of-study'); return null; }
+      if (!branch) { showToast('Please select your branch/department.', 'error'); focusField('branch'); return null; }
+      if (!skillLevel) { showToast('Please select your tech skill level.', 'error'); focusField('skill-level'); return null; }
+      if (!dob) { showToast('Please enter your date of birth.', 'error'); focusField('dob'); return null; }
       if (selectedInterests.size === 0) { showToast('Please select at least one tech interest.', 'error'); return null; }
 
-      return { fullName, email, phone, year, githubUrl, linkedinUrl, interests };
+      return { fullName, email, phone, year, branch, skillLevel, dob, interests };
     }
 
     function focusField(id) {
@@ -916,7 +999,10 @@
       }
     }
 
-    // ─── Toast Notifications ────────────────────────────────
+    // ═══════════════════════════════════════════════════════════
+    //  TOAST NOTIFICATIONS
+    // ═══════════════════════════════════════════════════════════
+
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -926,11 +1012,7 @@
         error: 'bg-red-50 border-red-200 text-red-700',
         info: 'bg-accent-50 border-accent-200 text-accent-700',
       };
-      const icons = {
-        success: '✓',
-        error: '✕',
-        info: 'ℹ',
-      };
+      const icons = { success: '✓', error: '✕', info: 'ℹ' };
 
       toast.className = `toast flex items-center gap-3 px-5 py-3 rounded-xl border shadow-elevated text-sm font-medium ${colors[type] || colors.info}`;
       toast.innerHTML = `
@@ -939,53 +1021,40 @@
       `;
 
       container.appendChild(toast);
-      setTimeout(() => {
-        if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, 4000);
+      setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 4000);
     }
 
-    // ─── Payment Modal Controls ─────────────────────────────
-    const modal = document.getElementById('payment-modal');
-    const step1 = document.getElementById('payment-step-1');
-    const step2 = document.getElementById('payment-step-2');
-    const step3 = document.getElementById('payment-step-3');
+    // ═══════════════════════════════════════════════════════════
+    //  REGISTER: FORM → PAYMENT FLOW
+    // ═══════════════════════════════════════════════════════════
 
-    function openPaymentModal() {
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      showStep(1);
-    }
+    let currentFormData = null;
 
-    function closePaymentModal() {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
+    const registrationForm = document.getElementById('innovexa-registration-form');
+    const paymentSection = document.getElementById('payment-section');
+    const successSection = document.getElementById('success-section');
 
-    function showStep(num) {
-      step1.classList.toggle('hidden', num !== 1);
-      step2.classList.toggle('hidden', num !== 2);
-      step3.classList.toggle('hidden', num !== 3);
-    }
+    // "Proceed to Pay" — validate form, then show payment UI
+    registrationForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = validateForm();
+      if (!formData) return;
 
-    // Close modal on backdrop click or close button
-    document.getElementById('modal-backdrop').addEventListener('click', closePaymentModal);
-    document.getElementById('modal-close').addEventListener('click', closePaymentModal);
+      currentFormData = formData;
 
-    // Escape key closes modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePaymentModal();
+      // Hide form, show payment UI
+      registrationForm.classList.add('hidden');
+      paymentSection.classList.remove('hidden');
+
+      // Smooth scroll to payment section
+      paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    // ─── UPI App Button Handlers ────────────────────────────
-    // "Already Paid" button → go to UTR step
-    document.getElementById('btn-already-paid').addEventListener('click', () => {
-      showStep(2);
-      setTimeout(() => document.getElementById('utr-input').focus(), 200);
-    });
-
-    // "Back" button in step 2
-    document.getElementById('btn-back-to-step1').addEventListener('click', () => {
-      showStep(1);
+    // "Back to form" — go back to the form
+    document.getElementById('btn-back-to-form').addEventListener('click', () => {
+      paymentSection.classList.add('hidden');
+      registrationForm.classList.remove('hidden');
+      registrationForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     // Copy UPI ID
@@ -993,11 +1062,9 @@
       navigator.clipboard.writeText(UPI_ID).then(() => {
         showToast('UPI ID copied!', 'success');
         document.getElementById('copy-upi-btn').textContent = 'Copied!';
-        setTimeout(() => {
-          document.getElementById('copy-upi-btn').textContent = 'Copy';
-        }, 2000);
+        setTimeout(() => { document.getElementById('copy-upi-btn').textContent = 'Copy'; }, 2000);
       }).catch(() => {
-        // Fallback
+        // Fallback for older browsers
         const ta = document.createElement('textarea');
         ta.value = UPI_ID; ta.style.position = 'fixed'; ta.style.left = '-9999px';
         document.body.appendChild(ta); ta.select(); document.execCommand('copy');
@@ -1006,122 +1073,29 @@
       });
     });
 
-    });
+    // ═══════════════════════════════════════════════════════════
+    //  UTR VALIDATION
+    // ═══════════════════════════════════════════════════════════
 
-    // ─── UTR Validation & Verification ──────────────────────
-    /**
-     * Validates the UTR format:
-     * - Must be numeric (or alphanumeric for some banks)
-     * - Typically 12 digits, but some banks use 8-22 chars
-     */
     function validateUTR(utr) {
       const cleaned = utr.trim();
       if (!cleaned) return { valid: false, error: 'Please enter a Transaction ID.' };
       if (cleaned.length < 8) return { valid: false, error: 'Transaction ID is too short. It should be at least 8 characters.' };
       if (cleaned.length > 22) return { valid: false, error: 'Transaction ID is too long. Please check and re-enter.' };
       if (!/^[a-zA-Z0-9]+$/.test(cleaned)) return { valid: false, error: 'Transaction ID should only contain letters and numbers.' };
-      if (isUTRDuplicate(cleaned)) return { valid: false, error: '⚠️ This Transaction ID has already been submitted. Contact us if this is an error.' };
       return { valid: true, cleaned };
     }
 
-    // ─── Send Data to Google Sheets ─────────────────────────
-    /**
-     * POSTs all registration data to the Google Apps Script web app.
-     * The script writes a new row in your Google Sheet.
-     * Fails silently so the user always sees the success screen
-     * even if the sheet is temporarily unreachable.
-     */
-    async function sendToGoogleSheets(utr, formData) {
-      if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-        console.warn('⚠️  Google Sheets not configured. Paste your Apps Script URL into GOOGLE_SCRIPT_URL.');
-        return;
-      }
+    // ═══════════════════════════════════════════════════════════
+    //  SUBMIT REGISTRATION → POST TO GOOGLE APPS SCRIPT
+    // ═══════════════════════════════════════════════════════════
 
-      const payload = {
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        year: formData.year,
-        githubUrl: formData.githubUrl || '',
-        linkedinUrl: formData.linkedinUrl || '',
-        interests: formData.interests || '',
-        utr: utr,
-        amount: FEE_AMOUNT,
-      };
-
-      try {
-        // Google Apps Script requires no-cors mode for cross-origin POSTs
-        await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',   // Required for Apps Script — response will be opaque
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        console.log('✅ Registration data sent to Google Sheets.');
-      } catch (err) {
-        // Don't block the user — log error and continue
-        console.error('❌ Failed to send to Google Sheets:', err);
-      }
-    }
-
-    // ─── Verification Animation ─────────────────────────────
-    /**
-     * Plays a terminal-style verification animation
-     * to give the feel of a backend scanning process.
-     */
-    function runVerificationAnimation(utr, formData) {
-      showStep(3);
-
-      const terminalOutput = document.getElementById('terminal-output');
-      const progressBar = document.getElementById('verify-progress-bar');
-      const statusText = document.getElementById('verify-status-text');
-      terminalOutput.innerHTML = '';
-
-      const lines = [
-        { text: '$ connecting to payment_node...', color: 'text-emerald-400', delay: 300 },
-        { text: '  → node.status: ONLINE', color: 'text-blue-400', delay: 700 },
-        { text: `$ verify --hash "${utr}"`, color: 'text-emerald-400', delay: 1200 },
-        { text: `  → operative: ${formData.fullName}`, color: 'text-neutral-400', delay: 1800 },
-        { text: `  → amount: ${FEE_DISPLAY}`, color: 'text-neutral-400', delay: 2200 },
-        { text: '  → scanning blockchain...', color: 'text-yellow-400', delay: 2800 },
-        { text: '  → proof_of_work: SUBMITTED', color: 'text-purple-400', delay: 3500 },
-        { text: '  → status: PENDING_VERIFICATION ✓', color: 'text-emerald-400', delay: 4200 },
-      ];
-
-      const progressSteps = [10, 25, 40, 55, 70, 80, 90, 100];
-
-      lines.forEach((line, i) => {
-        setTimeout(() => {
-          const p = document.createElement('p');
-          p.className = `${line.color} terminal-line visible`;
-          p.textContent = line.text;
-          terminalOutput.appendChild(p);
-          terminalOutput.scrollTop = terminalOutput.scrollHeight;
-
-          // Update progress
-          progressBar.style.width = `${progressSteps[i]}%`;
-
-          if (i === lines.length - 1) {
-            // Done — save locally, send to Google Sheets, show success
-            setTimeout(async () => {
-              saveUTR(utr, formData);           // localStorage duplicate guard
-              await sendToGoogleSheets(utr, formData);  // send to Google Sheets
-              closePaymentModal();
-              showSuccessScreen(formData, utr);
-              showToast(`Welcome aboard, Operative ${formData.fullName.split(' ')[0]}! 🚀`, 'success');
-            }, 800);
-          }
-        }, line.delay);
-      });
-    }
-
-    // ─── Verify UTR Button Handler ──────────────────────────
-    document.getElementById('btn-verify-utr').addEventListener('click', () => {
+    document.getElementById('btn-submit-registration').addEventListener('click', async () => {
       const utrInput = document.getElementById('utr-input');
       const utrError = document.getElementById('utr-error');
       const utr = utrInput.value.trim();
 
-      // Validate
+      // Validate UTR
       const result = validateUTR(utr);
       if (!result.valid) {
         utrError.textContent = result.error;
@@ -1130,26 +1104,85 @@
         setTimeout(() => utrInput.classList.remove('!border-red-400'), 2500);
         return;
       }
-
       utrError.classList.add('hidden');
 
-      // Run verification animation
-      runVerificationAnimation(result.cleaned, currentFormData);
-    });
+      // Show loading state
+      const btn = document.getElementById('btn-submit-registration');
+      const btnText = document.getElementById('submit-btn-text');
+      const spinner = document.getElementById('submit-spinner');
+      btn.disabled = true;
+      btnText.textContent = 'Submitting...';
+      spinner.classList.remove('hidden');
 
-    // Allow Enter key to submit UTR
-    document.getElementById('utr-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        document.getElementById('btn-verify-utr').click();
+      // Build payload
+      const payload = {
+        fullName: currentFormData.fullName,
+        email: currentFormData.email,
+        phone: currentFormData.phone,
+        year: currentFormData.year,
+        branch: currentFormData.branch,
+        skillLevel: currentFormData.skillLevel,
+        dob: currentFormData.dob,
+        interests: currentFormData.interests,
+        utr: result.cleaned,
+        amount: FEE_LABEL,
+      };
+
+      try {
+        // POST to Google Apps Script
+        // Note: Google Apps Script requires 'no-cors' for cross-origin POSTs.
+        // The response will be opaque, but the data IS written to the sheet.
+        if (SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          console.log('✅ Registration data sent to Google Sheets.');
+        } else {
+          console.warn('⚠️ Google Apps Script URL not configured. Set SCRIPT_URL in the code.');
+        }
+
+        // Show success screen
+        showSuccessScreen(currentFormData, result.cleaned);
+        showToast(`Registration submitted! Welcome, ${currentFormData.fullName.split(' ')[0]}! 🚀`, 'success');
+
+      } catch (err) {
+        console.error('❌ Submission error:', err);
+        // Show success anyway — the data might have been saved
+        showSuccessScreen(currentFormData, result.cleaned);
+        showToast('Submitted! Your data may take a moment to sync.', 'info');
+
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = 'Submit Registration';
+        spinner.classList.add('hidden');
       }
     });
 
-    // ─── Success Screen ─────────────────────────────────────
+    // Enter key submits UTR
+    document.getElementById('utr-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('btn-submit-registration').click();
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════
+    //  SUCCESS SCREEN
+    // ═══════════════════════════════════════════════════════════
+
     function showSuccessScreen(data, transactionId) {
-      const main = document.getElementById('registration-form');
-      main.innerHTML = `
-        <div class="max-w-2xl mx-auto px-6 text-center py-10 animate-fade-in">
+      // Hide form + payment
+      registrationForm.classList.add('hidden');
+      paymentSection.classList.add('hidden');
+
+      // Show success section
+      successSection.classList.remove('hidden');
+      successSection.innerHTML = `
+        <div class="text-center py-6 animate-fade-in">
+          <!-- Success Icon -->
           <div class="mx-auto w-20 h-20 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center mb-8">
             <svg class="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -1157,22 +1190,23 @@
           </div>
 
           <span class="inline-block font-mono text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full mb-4 tracking-wider uppercase">
-            deployment.successful
+            registration.submitted
           </span>
 
           <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-neutral-800">
-            Welcome, Operative<br />
-            <span class="bg-gradient-to-r from-accent-500 to-purple-500 bg-clip-text text-transparent">${data.fullName}</span>
+            Registration Submitted<br />
+            <span class="bg-gradient-to-r from-accent-500 to-blue-600 bg-clip-text text-transparent">${data.fullName}</span>
           </h2>
 
           <p class="mt-4 text-neutral-500 text-sm max-w-md mx-auto leading-relaxed">
-            Your registration has been submitted. Your membership will be activated once verified by the Core Network.
+            Your registration is now pending verification. Our team will confirm your payment and activate your membership.
           </p>
 
+          <!-- Details Card -->
           <div class="mt-8 bg-white rounded-2xl border border-neutral-200 shadow-card p-6 text-left max-w-md mx-auto">
             <div class="space-y-3 text-sm">
               <div class="flex justify-between">
-                <span class="text-neutral-400 font-mono text-xs">transaction.hash</span>
+                <span class="text-neutral-400 font-mono text-xs">transaction.id</span>
                 <span class="font-mono text-xs text-accent-600">${transactionId}</span>
               </div>
               <div class="h-px bg-neutral-100"></div>
@@ -1188,7 +1222,7 @@
               <div class="h-px bg-neutral-100"></div>
               <div class="flex justify-between">
                 <span class="text-neutral-400 font-mono text-xs">fee.paid</span>
-                <span class="text-xs font-semibold text-emerald-600">${FEE_DISPLAY} ✓</span>
+                <span class="text-xs font-semibold text-emerald-600">${FEE_LABEL} ✓</span>
               </div>
               <div class="h-px bg-neutral-100"></div>
               <div class="flex justify-between">
@@ -1198,51 +1232,156 @@
             </div>
           </div>
 
+          <!-- Note -->
           <div class="mt-6 bg-amber-50 border border-amber-200/60 rounded-xl p-4 max-w-md mx-auto">
             <p class="text-xs text-amber-700">
-              <strong>Note:</strong> Your membership will be confirmed within 24 hours after payment verification by our team.
-              You will receive a confirmation at <strong>${data.email}</strong>.
+              <strong>Note:</strong> Your membership will be confirmed within 24 hours after payment verification.
+              You can check your status anytime using the "Check Status" tab.
             </p>
           </div>
 
+          <!-- Check Status Button -->
+          <button type="button" onclick="switchTab('status')"
+            class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent-600 hover:text-accent-700 cursor-pointer transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            Check My Status →
+          </button>
+
           <p class="mt-6 text-xs text-neutral-300 font-mono">
-            Innovexa Hub · Core Network · v2.0.0
+            Innovexa Hub · Core Network · v3.0.0
           </p>
         </div>
       `;
 
-      // Console log for admin
-      console.log('────────────────────────────────────────');
-      console.log('🚀 NEW REGISTRATION SUBMITTED');
-      console.log('   Name        :', data.fullName);
-      console.log('   Email       :', data.email);
-      console.log('   Phone       :', data.phone);
-      console.log('   Year        :', data.year);
-      console.log('   GitHub      :', data.githubUrl || 'N/A');
-      console.log('   LinkedIn    :', data.linkedinUrl || 'N/A');
-      console.log('   Interests   :', data.interests || 'N/A');
-      console.log('   UTR         :', transactionId);
-      console.log('   Status      : PENDING_VERIFICATION');
-      console.log('────────────────────────────────────────');
+      // Scroll to top
+      successSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // ─── Form Submit Handler ────────────────────────────────
-    document.getElementById('innovexa-registration-form')
-      .addEventListener('submit', function (e) {
+    // ═══════════════════════════════════════════════════════════
+    //  CHECK STATUS → GET FROM GOOGLE APPS SCRIPT
+    // ═══════════════════════════════════════════════════════════
+
+    document.getElementById('btn-check-status').addEventListener('click', async () => {
+      const queryInput = document.getElementById('status-query');
+      const query = queryInput.value.trim();
+      const resultDiv = document.getElementById('status-result');
+
+      if (!query) {
+        showToast('Please enter your email or UTR.', 'error');
+        focusField('status-query');
+        return;
+      }
+
+      // Show loading
+      const btn = document.getElementById('btn-check-status');
+      const btnText = document.getElementById('status-btn-text');
+      const spinner = document.getElementById('status-spinner');
+      btn.disabled = true;
+      btnText.textContent = 'Checking...';
+      spinner.classList.remove('hidden');
+
+      // Clear previous result
+      resultDiv.classList.add('hidden');
+      resultDiv.innerHTML = '';
+
+      try {
+        if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+          throw new Error('Google Apps Script URL not configured.');
+        }
+
+        // Determine if query is email or UTR
+        const paramName = query.includes('@') ? 'email' : 'utr';
+        const url = `${SCRIPT_URL}?${paramName}=${encodeURIComponent(query)}`;
+
+        // GET request — Google Apps Script redirects, so we follow the redirect
+        const response = await fetch(url, { method: 'GET', redirect: 'follow' });
+        const data = await response.json();
+
+        resultDiv.classList.remove('hidden');
+
+        if (data.success && data.status) {
+          const status = data.status.toLowerCase();
+          const isConfirmed = status.includes('confirm') || status.includes('approved') || status.includes('active');
+
+          if (isConfirmed) {
+            // ✅ Confirmed
+            resultDiv.innerHTML = `
+              <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-6 text-center animate-scale-in">
+                <div class="mx-auto w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-emerald-700 mb-1">Status: Registration Confirmed!</p>
+                <p class="text-xs text-emerald-600">Welcome to the Hub, Operative. Your access is active. 🚀</p>
+                ${data.name ? `<p class="text-xs text-emerald-500 mt-2 font-mono">operative: ${data.name}</p>` : ''}
+              </div>
+            `;
+          } else {
+            // ⏳ Pending
+            resultDiv.innerHTML = `
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center animate-scale-in">
+                <div class="mx-auto w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mb-4 status-pulse">
+                  <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-amber-700 mb-1">Status: Pending Verification</p>
+                <p class="text-xs text-amber-600">Your payment is being reviewed. This usually takes up to 24 hours.</p>
+                ${data.name ? `<p class="text-xs text-amber-500 mt-2 font-mono">operative: ${data.name}</p>` : ''}
+              </div>
+            `;
+          }
+        } else {
+          // ❌ Not found
+          resultDiv.innerHTML = `
+            <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center animate-scale-in">
+              <div class="mx-auto w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <p class="text-sm font-semibold text-red-700 mb-1">No Registration Found</p>
+              <p class="text-xs text-red-600">${data.message || 'We could not find a registration matching that email or UTR. Please check and try again.'}</p>
+            </div>
+          `;
+        }
+      } catch (err) {
+        console.error('❌ Status check error:', err);
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = `
+          <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center animate-scale-in">
+            <div class="mx-auto w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <p class="text-sm font-semibold text-red-700 mb-1">Connection Error</p>
+            <p class="text-xs text-red-600">Could not reach the server. Please check the URL configuration or try again later.</p>
+          </div>
+        `;
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = 'Check Status';
+        spinner.classList.add('hidden');
+      }
+    });
+
+    // Enter key triggers status check
+    document.getElementById('status-query').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
         e.preventDefault();
+        document.getElementById('btn-check-status').click();
+      }
+    });
 
-        const formData = validateForm();
-        if (!formData) return;
+    // ═══════════════════════════════════════════════════════════
+    //  SCROLL ANIMATIONS
+    // ═══════════════════════════════════════════════════════════
 
-        // Store form data for later use in UTR submission
-        currentFormData = formData;
-
-        // Set current form data and open payment modal
-        currentFormData = formData;
-        openPaymentModal();
-      });
-
-    // ─── Intersection Observer for Scroll Animations ────────
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -1255,8 +1394,7 @@
       { threshold: 0.1 }
     );
 
-    document.querySelectorAll('fieldset, .bg-white.rounded-2xl')
-      .forEach((el) => observer.observe(el));
+    document.querySelectorAll('fieldset, .bg-white.rounded-2xl').forEach((el) => observer.observe(el));
   </script>
 
 </body>
